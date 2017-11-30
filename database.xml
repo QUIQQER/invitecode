@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+
+    <global>
+        <table name="quiqqer_invitecodes">
+            <field type="BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY">id</field>
+            <field type="VARCHAR(255) NOT NULL">code</field>
+            <field type="BIGINT(20) NULL">userId</field>
+            <field type="VARCHAR(255) NULL">email</field>
+            <field type="DATETIME NOT NULL">createDate</field>
+            <field type="DATETIME NULL">useDate</field>
+        </table>
+    </global>
+
+</database>

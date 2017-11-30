@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <locales>
-  <groups name="quiqqer/invitecode" datatype="php,js">
-    <locale name="package.title">
-      <de><![CDATA[QUIQQER Einladungs-Codes]]></de>
-      <en><![CDATA[QUIQQER Invite Codes]]></en>
-    </locale>
-  <locale name="package.description"><de><![CDATA[Einladungs-Codes generieren und verwalten, um QUIQQER Benutzer zu registrieren]]></de><en><![CDATA[Generate and manage Invite Codes to register and identify users in your system]]></en></locale></groups>
+    <groups name="quiqqer/invitecode" datatype="php,js">
+        <locale name="package.title">
+            <de><![CDATA[QUIQQER Einladungs-Codes]]></de>
+            <en><![CDATA[QUIQQER Invite Codes]]></en>
+        </locale>
+        <locale name="package.description">
+            <de><![CDATA[Einladungs-Codes generieren und verwalten, um QUIQQER Benutzer zu registrieren]]></de>
+            <en><![CDATA[Generate and manage Invite Codes to register and identify users in your system]]></en>
+        </locale>
+
+        <!-- Settings -->
+        <locale name="settings.menu.title">
+            <de><![CDATA[Einladungs-Codes]]></de>
+            <en><![CDATA[Invite Codes]]></en>
+        </locale>
+        <locale name="settings.category.title">
+            <de><![CDATA[Einstellungen]]></de>
+            <en><![CDATA[Settings]]></en>
+        </locale>
+        <locale name="settings.prefix.title">
+            <de><![CDATA[Einladungs-Code Präfix]]></de>
+            <en><![CDATA[Invite Code prefix]]></en>
+        </locale>
+        <locale name="settings.prefix.description">
+            <de><![CDATA[Präfix, das generierten Einladungs-Codes vorangestellt wird.]]></de>
+            <en><![CDATA[Prefix that is prepended to generated Invite Codes.]]></en>
+        </locale>
+        <locale name="settings.codeGenerator.title">
+            <de><![CDATA[Einladungs-Code Generator]]></de>
+            <en><![CDATA[Invite Code Generator]]></en>
+        </locale>
+    </groups>
+
+    <groups name="quiqqer/invitecode" datatype="php">
+        <locale name="exception.invitecode.not_found">
+            <de><![CDATA[Der Einladungs-Code mit ID #[id] wurde nicht gefunden.]]></de>
+            <en><![CDATA[Invite Code with ID #[id] was not found.]]></en>
+        </locale>
+    </groups>
 </locales>

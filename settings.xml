@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiqqer>
+    <settings>
+
+        <config>
+
+            <section name="settings">
+                <conf name="prefix">
+                    <type><![CDATA[string]]></type>
+                </conf>
+                <conf name="codeGenerator">
+                    <type><![CDATA[string]]></type>
+                    <defaultvalue><![CDATA[SimpleString]]></defaultvalue>
+                </conf>
+            </section>
+
+        </config>
+
+        <window>
+            <title>
+                <locale group="quiqqer/invitecode" var="settings.menu.title"/>
+            </title>
+
+            <params>
+                <icon>fa fa-code</icon>
+            </params>
+
+            <categories>
+                <category name="settings">
+                    <title>
+                        <locale group="quiqqer/invitecode" var="settings.category.title"/>
+                    </title>
+                    <settings title="settings" name="settings">
+                        <title>
+                            <locale group="quiqqer/invitecode" var="settings.title"/>
+                        </title>
+
+                        <input conf="settings.prefix" type="text">
+                            <text>
+                                <locale group="quiqqer/invitecode" var="settings.prefix.title"/>
+                            </text>
+                            <description>
+                                <locale group="quiqqer/invitecode" var="settings.prefix.description"/>
+                            </description>
+                        </input>
+                        <input conf="settings.codeGenerator" type="text" data-qui="package/quiqqer/invitecode/bin/controls/settings/CodeGeneratorSelect">
+                            <text>
+                                <locale group="quiqqer/invitecode" var="settings.codeGenerator.title"/>
+                            </text>
+                            <description>
+                                <locale group="quiqqer/invitecode" var="settings.codeGenerator.description"/>
+                            </description>
+                        </input>
+                    </settings>
+                </category>
+
+            </categories>
+        </window>
+
+    </settings>
+</quiqqer>
