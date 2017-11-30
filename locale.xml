@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locales>
+  <groups name="quiqqer/invitecode" datatype="php,js">
+    <locale name="package.title">
+      <de><![CDATA[QUIQQER Einladungs-Codes]]></de>
+      <en><![CDATA[QUIQQER Invite Codes]]></en>
+    </locale>
+  <locale name="package.description"><de><![CDATA[Einladungs-Codes generieren und verwalten, um QUIQQER Benutzer zu registrieren]]></de><en><![CDATA[Generate and manage Invite Codes to register and identify users in your system]]></en></locale></groups>
+</locales>
