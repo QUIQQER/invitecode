@@ -1,40 +1,41 @@
-invitecode
+quiqqer/invitecode
 ========
 
-Generate and manage Invite Codes to register and identify users in your system
+Generate and manage Invite Codes to register and identify users in your QUIQQER system.
 
 Paketname:
 
     quiqqer/invitecode
 
 
-Features (Funktionen)
+Features
 --------
 
+* Invite code management panel
+* (Mass-)Create invite codes and optionally link user accounts to it
+* Invite Code Registrar (`quiqqer/frontend-users`) that takes an Invite Code and an e-mail address to register a new user
 
 Installation
 ------------
 
-Der Paketname ist: quiqqer/invitecode
+Package name: quiqqer/invitecode
 
 
-Mitwirken
+Collaboration
 ----------
 
-- Issue Tracker: 
-- Source Code: 
+- Issue Tracker: https://dev.quiqqer.com/quiqqer/invitecode/issues
+- Source Code: https://dev.quiqqer.com/quiqqer/invitecode
 
 
 Support
 -------
 
-Falls Sie einen Fehler gefunden haben oder Verbesserungen wünschen,
-senden Sie bitte eine E-Mail an support@pcsg.de.
+If you found any flaws, have any wishes or suggestions you can send an email to support@pcsg.de to inform us about your concerns. 
+We will try to respond to your request and forward it to the responsible developer.
 
 
-Lizenz
+License
 -------
 
-
-Entwickler
---------
+GPL-3.0+
