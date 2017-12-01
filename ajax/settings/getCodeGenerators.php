@@ -4,6 +4,8 @@
  * This file contains package_quiqqer_invitecode_ajax_settings_getCodeGenerators
  */
 
+use QUI\InviteCode\CodeGenerator;
+
 /**
  * Get list of all CodeGenerators
  *
@@ -12,7 +14,7 @@
 QUI::$Ajax->registerFunction(
     'package_quiqqer_invitecode_ajax_settings_getCodeGenerators',
     function () {
-        return \QUI\InviteCode\CodeGenerator::getList();
+        return CodeGenerator::getList();
     },
     array(),
     'Permission::checkAdminUser'

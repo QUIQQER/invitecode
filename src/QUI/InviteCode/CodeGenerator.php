@@ -13,13 +13,39 @@ use QUI\Utils\System\File;
 class CodeGenerator
 {
     /**
+     * Generate a new, random Invite Code
+     *
+     * @return string
+     */
+    public static function generate()
+    {
+        $generator = '\\QUI\\InviteCode\\CodeGenerators\\' . self::getCurrentGenerator();
+
+        $Config = QUI::getPackage('quiqqer/invitecode')->getConfig();
+        $prefix = $Config->get('settings', 'prefix');
+
+        if (empty($prefix)) {
+            $prefix = '';
+        }
+
+        return call_user_func($generator . '::generate', $prefix);
+    }
+
+    /**
      * Get CodeGenerator that is currently set
      *
      * @return string - FQ class name
      */
-    public static function getCurrentGenerator()
+    protected static function getCurrentGenerator()
     {
+        $Config           = QUI::getPackage('quiqqer/invitecode')->getConfig();
+        $currentGenerator = $Config->get('settings', 'codeGenerator');
 
+        if (empty($currentGenerator)) {
+            return 'SimpleString';
+        }
+
+        return $currentGenerator;
     }
 
     /**
@@ -29,7 +55,7 @@ class CodeGenerator
      */
     public static function getList()
     {
-        $dir        = QUI::getPackage('quiqqer/invitecode')->getDir() . 'src/QUI/InviteCode/CodeGeneratos';
+        $dir        = QUI::getPackage('quiqqer/invitecode')->getDir() . 'src/QUI/InviteCode/CodeGenerators';
         $generators = array();
 
         foreach (File::readDir($dir, true) as $file) {

@@ -1,0 +1,43 @@
+.quiqqer-invitecode-manager {
+    float: left;
+    height: 100%;
+    width: 100%;
+}
+
+.quiqqer-invitecode-manager-table {
+    float: left;
+    height: 100% !important;
+    width: 100%;
+}
+
+.quiqqer-invitecode-manager-create label {
+    float: left;
+    width: 100%;
+}
+
+.quiqqer-invitecode-manager-create label:not(:last-of-type) {
+    margin-bottom: 15px;
+}
+
+.quiqqer-invitecode-manager-create label span {
+    float: left;
+    margin-bottom: 5px;
+}
+
+.quiqqer-invitecode-manager-create-sendmail span,
+.quiqqer-invitecode-manager-create-sendmail input {
+    float: right !important;
+    width: unset !important;
+}
+
+.quiqqer-invitecode-manager-create input {
+    width: 100%;
+}
+
+.quiqqer-invitecode-manager-tbl-status-unused {
+    color: #bb252a;
+}
+
+.quiqqer-invitecode-manager-tbl-status-used {
+    color: #608a0e;
+}

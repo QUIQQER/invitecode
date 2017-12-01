@@ -12,6 +12,9 @@
                     <type><![CDATA[string]]></type>
                     <defaultvalue><![CDATA[SimpleString]]></defaultvalue>
                 </conf>
+                <conf name="registrationSite">
+                    <type><![CDATA[string]]></type>
+                </conf>
             </section>
 
         </config>
@@ -43,12 +46,22 @@
                                 <locale group="quiqqer/invitecode" var="settings.prefix.description"/>
                             </description>
                         </input>
+
                         <input conf="settings.codeGenerator" type="text" data-qui="package/quiqqer/invitecode/bin/controls/settings/CodeGeneratorSelect">
                             <text>
                                 <locale group="quiqqer/invitecode" var="settings.codeGenerator.title"/>
                             </text>
                             <description>
                                 <locale group="quiqqer/invitecode" var="settings.codeGenerator.description"/>
+                            </description>
+                        </input>
+
+                        <input conf="settings.registrationSite" type="text" class="project-site">
+                            <text>
+                                <locale group="quiqqer/invitecode" var="settings.registrationSite.title"/>
+                            </text>
+                            <description>
+                                <locale group="quiqqer/invitecode" var="settings.registrationSite.description"/>
                             </description>
                         </input>
                     </settings>

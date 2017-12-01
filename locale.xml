@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <locales>
     <groups name="quiqqer/invitecode" datatype="php,js">
+        <!-- Package -->
         <locale name="package.title">
-            <de><![CDATA[QUIQQER Einladungs-Codes]]></de>
+            <de><![CDATA[QUIQQER Invite-Codes]]></de>
             <en><![CDATA[QUIQQER Invite Codes]]></en>
         </locale>
         <locale name="package.description">
-            <de><![CDATA[Einladungs-Codes generieren und verwalten, um QUIQQER Benutzer zu registrieren]]></de>
+            <de><![CDATA[Invite-Codes generieren und verwalten, um QUIQQER Benutzer zu registrieren]]></de>
             <en><![CDATA[Generate and manage Invite Codes to register and identify users in your system]]></en>
         </locale>
 
+        <!-- Menu -->
+        <locale name="menu.extras.invitecodes.title">
+            <de><![CDATA[Invite-Codes]]></de>
+            <en><![CDATA[Invite Codes]]></en>
+        </locale>
+
         <!-- Settings -->
+        <locale name="settings.title">
+            <de><![CDATA[Allgemeine Einstellungen]]></de>
+            <en><![CDATA[General settings]]></en>
+        </locale>
         <locale name="settings.menu.title">
-            <de><![CDATA[Einladungs-Codes]]></de>
+            <de><![CDATA[Invite-Codes]]></de>
             <en><![CDATA[Invite Codes]]></en>
         </locale>
         <locale name="settings.category.title">
@@ -20,23 +31,194 @@
             <en><![CDATA[Settings]]></en>
         </locale>
         <locale name="settings.prefix.title">
-            <de><![CDATA[Einladungs-Code Präfix]]></de>
+            <de><![CDATA[Invite-Code Präfix]]></de>
             <en><![CDATA[Invite Code prefix]]></en>
         </locale>
-        <locale name="settings.prefix.description">
-            <de><![CDATA[Präfix, das generierten Einladungs-Codes vorangestellt wird.]]></de>
-            <en><![CDATA[Prefix that is prepended to generated Invite Codes.]]></en>
+        <locale name="settings.prefix.description" html="true">
+            <de><![CDATA[Präfix, das generierten Invite-Codes vorangestellt wird. <b>Betrifft nicht bereits erstellte Invite-Codes!</b>]]></de>
+            <en><![CDATA[Prefix that is prepended to generated Invite Codes. <b>Does not affect already created Invite Codes!</b>]]></en>
         </locale>
         <locale name="settings.codeGenerator.title">
-            <de><![CDATA[Einladungs-Code Generator]]></de>
+            <de><![CDATA[Invite-Code Generator]]></de>
             <en><![CDATA[Invite Code Generator]]></en>
+        </locale>
+        <locale name="settings.codeGenerator.description">
+            <de><![CDATA[Bestimmt die Klasse, die zufällige Invite-Codes generiert. Hat auch Auswirkungen auf das Format der Invite-Codes.]]></de>
+            <en><![CDATA[Determines the class that generates random invitation codes. Also affects the format of invitation codes.]]></en>
+        </locale>
+        <locale name="settings.registrationSite.title">
+            <de><![CDATA[Registrierungs-Seite]]></de>
+            <en><![CDATA[Registration Site]]></en>
+        </locale>
+        <locale name="settings.registrationSite.description">
+            <de><![CDATA[Legt die Seite fest, deren URL beim Versenden eines Invite-Codes per E-Mail mitgesendet wird.]]></de>
+            <en><![CDATA[Specifies the Site whose URL will be emailed when sending an Invite code.]]></en>
         </locale>
     </groups>
 
     <groups name="quiqqer/invitecode" datatype="php">
+
+        <!-- Class: InviteCode -->
         <locale name="exception.invitecode.not_found">
-            <de><![CDATA[Der Einladungs-Code mit ID #[id] wurde nicht gefunden.]]></de>
+            <de><![CDATA[Der Invite-Code mit ID #[id] wurde nicht gefunden.]]></de>
             <en><![CDATA[Invite Code with ID #[id] was not found.]]></en>
         </locale>
+
+        <!-- Ajax -->
+        <locale name="message.ajax.general_error">
+            <de><![CDATA[Beim Verarbeiten der Anfrage ist ein unerwarteter Fehler aufgetreten. Bitte prüfen Sie die Fehler-Logs oder kontaktieren Sie einen Administrator.]]></de>
+            <en><![CDATA[An unexpected error occurred while processing the request. Please check the error logs or contact an administrator.]]></en>
+        </locale>
+        <locale name="message.ajax.create.error" html="true">
+            <de><![CDATA[Der Invite-Code konnte nicht erstellt werden:<br><br>[error]]]></de>
+            <en><![CDATA[The Invite Code could not be created:<br><br>[error]]]></en>
+        </locale>
+        <locale name="message.ajax.create.success">
+            <de><![CDATA[Der Invite-Code wurde erfolgreich erstellt.]]></de>
+            <en><![CDATA[The Invite Code has been successfully created.]]></en>
+        </locale>
+        <locale name="message.ajax.create.send_mail.error" html="true">
+            <de><![CDATA[Beim Versenden des Invite-Codes ist ein Fehler aufgetreten:<br><br>[error]]]></de>
+            <en><![CDATA[An error occurred while sending the Invite Code:<br><br>[error]]]></en>
+        </locale>
+        <locale name="message.ajax.create.send_mail.general_error">
+            <de><![CDATA[Beim Versenden des Invite-Codes ist ein unerwarteter Fehler aufgetreten. Bitte prüfen Sie die Fehler-Logs oder kontaktieren Sie einen Administrator.]]></de>
+            <en><![CDATA[An unexpected error occurred while sending the Invite Code. Please check the error logs or contact an administrator.]]></en>
+        </locale>
+        <locale name="message.ajax.create.send_mail.success">
+            <de><![CDATA[Der Invite-Code wurde erfolgreich versandt.]]></de>
+            <en><![CDATA[The Invite Code was successfully sent.]]></en>
+        </locale>
+        <locale name="message.ajax.delete.error" html="true">
+            <de><![CDATA[Beim Löschen der Invite-Codes ist ein Fehler aufgetreten:<br><br>[error]]]></de>
+            <en><![CDATA[An error occurred while deleting the Invite Codes:<br><br>[error].]]></en>
+        </locale>
+        <locale name="message.ajax.delete.success">
+            <de><![CDATA[Die Invite-Codes wurden erfolgreich gelöscht.]]></de>
+            <en><![CDATA[The Invite Codes have been deleted successfully.]]></en>
+        </locale>
+
+        <!-- Class: Handler -->
+        <locale name="exception.handler.user_already_exists">
+            <de><![CDATA[Es existiert bereits ein Benutzer mit der E-Mail-Adresse "[email]".]]></de>
+            <en><![CDATA[A user with e-mail address "[email]" already exists.]]></en>
+        </locale>
+        <locale name="exception.invitecode.no_registration_site">
+            <de><![CDATA[Es wurde noch keine Registrierungs-Seite festgelegt, auf die in der Invite-Code E-Mail verwiesen wird.]]></de>
+            <en><![CDATA[No registration page has yet been specified for the Invite Code email.]]></en>
+        </locale>
+        <locale name="mail.invite_code.body" html="true">
+            <de><![CDATA[<h1>Hallo!</h1>
+<p>Du bist herzlich eingeladen <a href="[registrationUrl]">[registrationUrl]</a> zu besuchen und Dich zu registrieren.</p>
+<p>Dein exklusiver Invite-Code lautet: [code]</p>]]></de>
+            <en><![CDATA[<h1>Greetings!</h1>
+<p>You are invited to visit <a href="[registrationUrl]">[registrationUrl]</a> and register a user account.</p>
+<p>Your exclusive Invite-Code is: [code]</p>]]></en>
+        </locale>
+        <locale name="mail.invite_code.subject">
+            <de><![CDATA[Dein exklusiver Invite-Code]]></de>
+            <en><![CDATA[Your exclusive Invite Code]]></en>
+        </locale>
+
     </groups>
+
+    <groups name="quiqqer/invitecode" datatype="js">
+
+
+        <!-- Control: Manager -->
+        <locale name="controls.manager.title">
+            <de><![CDATA[Invite-Codes]]></de>
+            <en><![CDATA[Invite Codes]]></en>
+        </locale>
+        <locale name="controls.manager.create.template.labelEmail">
+            <de><![CDATA[Invite-Code nur gültig mit folgender E-Mail-Adresse (optional)]]></de>
+            <en><![CDATA[Invite Code only valid with following E-Mail address (optional)]]></en>
+        </locale>
+        <locale name="controls.manager.create.template.labelDate">
+            <de><![CDATA[Gültig bis einschließlich (optional)]]></de>
+            <en><![CDATA[Valid until inclusive (optional)]]></en>
+        </locale>
+        <locale name="controls.manager.create.template.labelTitle">
+            <de><![CDATA[Verwendungszweck (optional)]]></de>
+            <en><![CDATA[Usage (optional)]]></en>
+        </locale>
+        <locale name="controls.manager.create.template.labelSendMail">
+            <de><![CDATA[Invite-Code nach Erstellung per E-Mail versenden]]></de>
+            <en><![CDATA[Send Invite Code via mail after creation]]></en>
+        </locale>
+        <locale name="controls.manager.create.popup.title">
+            <de><![CDATA[Neuen Invite-Code erstellen]]></de>
+            <en><![CDATA[Create new Invite Code]]></en>
+        </locale>
+        <locale name="controls.manager.create.popup.btn.confirm_text">
+            <de><![CDATA[Invite-Code erstellen]]></de>
+            <en><![CDATA[Create Invite Code]]></en>
+        </locale>
+        <locale name="controls.manager.create.popup.btn.confirm">
+            <de><![CDATA[Hier klicken, um neuen Invite-Code erstellen]]></de>
+            <en><![CDATA[Click here to create a new Invite Code]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.btn.create">
+            <de><![CDATA[Erstellen]]></de>
+            <en><![CDATA[Create]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.btn.quickcreate">
+            <de><![CDATA[Schnelles Erstellen]]></de>
+            <en><![CDATA[Quick Create]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.btn.delete">
+            <de><![CDATA[Markierte(n) löschen]]></de>
+            <en><![CDATA[Delete marked]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.header.code">
+            <de><![CDATA[Code]]></de>
+            <en><![CDATA[Code]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.header.email">
+            <de><![CDATA[Verknüpfte E-Mail-Adresse]]></de>
+            <en><![CDATA[Linked e-mail address]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.header.status">
+            <de><![CDATA[Status]]></de>
+            <en><![CDATA[Status]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.header.createDate">
+            <de><![CDATA[Erstellt am]]></de>
+            <en><![CDATA[Created at]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.header.validUntilDate">
+            <de><![CDATA[Einlösbar bis]]></de>
+            <en><![CDATA[Redeemable until]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.header.user">
+            <de><![CDATA[Registrierter Benutzer]]></de>
+            <en><![CDATA[Registered User]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.header.title">
+            <de><![CDATA[Verwendungszweck]]></de>
+            <en><![CDATA[Usage]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.status.unused">
+            <de><![CDATA[nicht eingelöst]]></de>
+            <en><![CDATA[nicht eingelöst]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.status.used">
+            <de><![CDATA[eingelöst - [useDate]]]></de>
+            <en><![CDATA[redeemed - [useDate]]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.validUntil.unlimited">
+            <de><![CDATA[unbegrenzt]]></de>
+            <en><![CDATA[not limited]]></en>
+        </locale>
+        <locale name="controls.manager.delete.popup.info">
+            <de><![CDATA[Sind Sie sicher, dass Sie die folgenden Invite-Codes unwiderruflich löschen wollen?<br><br>[codes]]]></de>
+            <en><![CDATA[Are you sure you want to irrevocably delete the following Invite Codes?<br><br>[codes]]]></en>
+        </locale>
+        <locale name="controls.manager.delete.popup.title">
+            <de><![CDATA[Invite-Codes löschen]]></de>
+            <en><![CDATA[Delete Invite Codes]]></en>
+        </locale>
+        
+    </groups>
+
 </locales>

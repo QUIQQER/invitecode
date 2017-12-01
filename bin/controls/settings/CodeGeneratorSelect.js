@@ -53,6 +53,8 @@ define('package/quiqqer/invitecode/bin/controls/settings/CodeGeneratorSelect', [
 
             var Elm = this.create().inject(this.$Input, 'after');
 
+            Elm.addClass('field-container-field');
+
             this.Loader.inject(Elm);
             this.Loader.show();
 
@@ -71,6 +73,7 @@ define('package/quiqqer/invitecode/bin/controls/settings/CodeGeneratorSelect', [
                 }
 
                 self.addEvent('onChange', function(value) {
+                    console.log(value);
                     self.$Input.value = value;
                 });
             });

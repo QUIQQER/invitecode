@@ -4,6 +4,7 @@ namespace QUI\InviteCode;
 
 use QUI;
 use QUI\InviteCode\Exception\InviteCodeException;
+use QUI\InviteCode\Exception\InviteCodeMailException;
 
 /**
  * Class InviteCode
@@ -50,14 +51,26 @@ class InviteCode
      *
      * @var \DateTime
      */
-    protected $UseDate;
+    protected $UseDate = null;
+
+    /**
+     * Date until the Invite code is valid
+     *
+     * @var \DateTime
+     */
+    protected $ValidUntilDate = null;
+
+    /**
+     * InviteCode title
+     *
+     * @var string
+     */
+    protected $title;
 
     /**
      * InviteCode constructor.
      *
      * @param int $id - Invite Code ID
-     * @return void
-     *
      * @throws InviteCodeException
      */
     public function __construct($id)
@@ -81,8 +94,9 @@ class InviteCode
 
         $data = current($result);
 
-        $this->id   = (int)$data['id'];
-        $this->code = $data['code'];
+        $this->id    = (int)$data['id'];
+        $this->code  = $data['code'];
+        $this->title = $data['title'];
 
         if (!empty($data['userId'])) {
             try {
@@ -104,6 +118,10 @@ class InviteCode
 
         if (!empty($data['useDate'])) {
             $this->UseDate = new \DateTime($data['useDate']);
+        }
+
+        if (!empty($data['validUntilDate'])) {
+            $this->ValidUntilDate = new \DateTime($data['validUntilDate']);
         }
     }
 
@@ -164,10 +182,136 @@ class InviteCode
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getUseDate()
     {
         return $this->UseDate;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getValidUntilDate()
+    {
+        return $this->ValidUntilDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Send this Invite Code via E-Mail
+     *
+     * @return void
+     * @throws InviteCodeMailException
+     */
+    public function sendViaMail()
+    {
+        $email = $this->getEmail();
+
+        if (empty($email)) {
+            throw new InviteCodeMailException(array(
+                'quiqqer/invitecode',
+                'exception.invitecode.no_email'
+            ));
+        }
+
+        $Mailer = new QUI\Mail\Mailer();
+
+        $Mailer->addRecipient($email);
+
+        $Engine = QUI::getTemplateManager()->getEngine();
+        $dir    = QUI::getPackage('quiqqer/invitecode')->getDir() . 'templates/';
+        $data   = array(
+            'code' => $this->getCode()
+        );
+
+        $RegistrationSite = Handler::getRegistrationSite();
+
+        if (empty($RegistrationSite)) {
+            throw new InviteCodeMailException(array(
+                'quiqqer/invitecode',
+                'exception.invitecode.no_registration_site'
+            ));
+        }
+
+        $data['registrationUrl'] = $RegistrationSite->getUrlRewritten();
+
+        $Engine->assign(array(
+            'body' => QUI::getLocale()->get(
+                'quiqqer/invitecode',
+                'mail.invite_code.body',
+                $data
+            )
+        ));
+
+        $Mailer->setSubject(QUI::getLocale()->get(
+            'quiqqer/invitecode',
+            'mail.invite_code.subject'
+        ));
+        $Mailer->setBody($Engine->fetch($dir . 'mail.invite_code.html'));
+        $Mailer->send();
+    }
+
+    /**
+     * Permanently delete this InviteCode
+     *
+     * @return void
+     */
+    public function delete()
+    {
+        QUI::getDataBase()->delete(
+            Handler::getTable(),
+            array(
+                'id' => $this->id
+            )
+        );
+    }
+
+    /**
+     * Get InviteCode attributes as array
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $data = array(
+            'id'             => $this->getId(),
+            'code'           => $this->getCode(),
+            'userId'         => false,
+            'username'       => false,
+            'email'          => $this->getEmail() ?: false,
+            'createDate'     => $this->getCreateDate()->format('Y-m-d H:i:s'),
+            'useDate'        => false,
+            'validUntilDate' => false,
+            'title'          => $this->getTitle() ?: false
+        );
+
+        $User = $this->getUser();
+
+        if ($User) {
+            $data['userId']   = $User->getId();
+            $data['username'] = $User->getName();
+        }
+
+        $UseDate = $this->getUseDate();
+
+        if ($UseDate) {
+            $data['useDate'] = $UseDate->format('Y-m-d H:i:s');
+        }
+
+        $ValidUntilDate = $this->getValidUntilDate();
+
+        if ($ValidUntilDate) {
+            $data['validUntilDate'] = $ValidUntilDate->format('Y-m-d H:i:s');
+        }
+
+        return $data;
     }
 }

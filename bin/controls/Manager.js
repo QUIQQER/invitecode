@@ -18,17 +18,19 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
     'utils/Controls',
     'qui/utils/Form',
 
+    'package/quiqqer/invitecode/bin/InviteCodes',
+
     'Locale',
     'Ajax',
     'Mustache',
 
     'text!package/quiqqer/invitecode/bin/controls/Manager.html',
-    'text!package/quiqqer/invitecode/bin/controls/Manager.Edit.html',
+    'text!package/quiqqer/invitecode/bin/controls/Manager.Create.html',
     'css!package/quiqqer/invitecode/bin/controls/Manager.css'
 
 ], function (QUI, QUIPanel, QUILoader, QUIPopup, QUIConfirm, QUIButton, QUISeparator,
-             Grid, QUIControlUtils, QUIFormUtils,
-             QUILocale, QUIAjax, Mustache, template, templateEdit) {
+             Grid, QUIControlUtils, QUIFormUtils, InviteCodes,
+             QUILocale, QUIAjax, Mustache, template, templateCreate) {
     "use strict";
 
     var lg = 'quiqqer/invitecode';
@@ -45,15 +47,17 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
             '$onRefresh',
             '$load',
             '$setGridData',
-            '$addBundle',
+            '$create',
             '$toggleActiveStatus',
             '$managePackages',
-            '$deleteBundles',
-            '$editBundle'
+            '$delete',
+            '$editBundle',
+            'refresh',
+            '$openUserPanel'
         ],
 
         options: {
-            title: QUILocale.get(lg, 'controls.bundlemanager.title')
+            title: QUILocale.get(lg, 'controls.manager.title')
         },
 
         initialize: function (options) {
@@ -63,7 +67,6 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
             this.$User       = null;
             this.$Grid       = null;
             this.$GridParent = null;
-            this.$FormParent = null;
             this.$Panel      = null;
 
             this.addEvents({
@@ -74,37 +77,32 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
         },
 
         /**
-         * Event: onImport
+         * Event: onCreate
          */
         $onCreate: function () {
+            var self = this;
+
             this.Loader.inject(this.$Elm);
 
             this.addButton({
-                name     : 'add',
-                text     : QUILocale.get(lg, 'controls.bundlemanager.tbl.btn.addbundle'),
+                name     : 'create',
+                text     : QUILocale.get(lg, 'controls.manager.tbl.btn.create'),
                 textimage: 'fa fa-plus',
                 events   : {
-                    onClick: this.$addBundle
-                }
-            });
-
-            this.addButton(new QUISeparator());
-
-            this.addButton({
-                name     : 'packages',
-                text     : QUILocale.get(lg, 'controls.bundlemanager.tbl.btn.managepackages'),
-                textimage: 'fa fa-gift',
-                events   : {
-                    onClick: this.$managePackages
+                    onClick: function() {
+                        self.$create();
+                    }
                 }
             });
 
             this.addButton({
-                name     : 'edit',
-                text     : QUILocale.get(lg, 'controls.bundlemanager.tbl.btn.editbundle'),
-                textimage: 'fa fa-edit',
+                name     : 'quickcreate',
+                text     : QUILocale.get(lg, 'controls.manager.tbl.btn.quickcreate'),
+                textimage: 'fa fa-plus',
                 events   : {
-                    onClick: this.$editBundle
+                    onClick: function() {
+                        self.$create(true);
+                    }
                 }
             });
 
@@ -112,14 +110,23 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
 
             this.addButton({
                 name     : 'delete',
-                text     : QUILocale.get(lg, 'controls.bundlemanager.tbl.btn.removebundle'),
+                text     : QUILocale.get(lg, 'controls.manager.tbl.btn.delete'),
                 textimage: 'fa fa-trash',
                 events   : {
-                    onClick: this.$deleteBundles
+                    onClick: this.$delete
                 }
             });
 
             this.$load();
+        },
+
+        /**
+         * Refresh data
+         */
+        refresh: function () {
+            if (this.$Grid) {
+                this.$Grid.refresh();
+            }
         },
 
         /**
@@ -135,7 +142,7 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
         },
 
         /**
-         * Load license management
+         * Load Grid
          */
         $load: function () {
             var self = this;
@@ -144,7 +151,7 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
             var Content = this.getContent();
 
             this.$GridParent = Content.getElement(
-                '.quiqqer-license-bundlemanager-table'
+                '.quiqqer-invitecode-manager-table'
             );
 
             this.$Grid = new Grid(this.$GridParent, {
@@ -154,30 +161,45 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                     dataType : 'number',
                     width    : 50
                 }, {
-                    header   : QUILocale.get(lg, 'controls.bundlemanager.tbl.header.title'),
+                    header   : QUILocale.get(lg, 'controls.manager.tbl.header.code'),
+                    dataIndex: 'code',
+                    dataType : 'string',
+                    width    : 150
+                }, {
+                    header   : QUILocale.get(lg, 'controls.manager.tbl.header.title'),
                     dataIndex: 'title',
                     dataType : 'string',
-                    width    : 250
+                    width    : 200
                 }, {
-                    header   : QUILocale.get(lg, 'controls.bundlemanager.tbl.header.description'),
-                    dataIndex: 'description',
+                    header   : QUILocale.get(lg, 'controls.manager.tbl.header.status'),
+                    dataIndex: 'status',
+                    dataType : 'node',
+                    width    : 200
+                }, {
+                    header   : QUILocale.get(lg, 'controls.manager.tbl.header.email'),
+                    dataIndex: 'email',
                     dataType : 'string',
-                    width    : 400
+                    width    : 200
                 }, {
-                    header   : QUILocale.get(lg, 'controls.bundlemanager.tbl.header.packagecount'),
-                    dataIndex: 'packagecount',
+                    header   : QUILocale.get(lg, 'controls.manager.tbl.header.user'),
+                    dataIndex: 'user',
+                    dataType : 'node',
+                    width    : 200,
+                    className: 'clickable'
+                }, {
+                    header   : QUILocale.get(lg, 'controls.manager.tbl.header.validUntilDate'),
+                    dataIndex: 'validUntilDate',
+                    dataType : 'string',
+                    width    : 150
+                }, {
+                    header   : QUILocale.get(lg, 'controls.manager.tbl.header.createDate'),
+                    dataIndex: 'createDate',
+                    dataType : 'string',
+                    width    : 150
+                }, {
+                    dataIndex: 'userId',
                     dataType : 'number',
-                    width    : 50
-                }, {
-                    header   : QUILocale.get(lg, 'controls.bundlemanager.tbl.header.updated'),
-                    dataIndex: 'updated',
-                    dataType : 'string',
-                    width    : 200
-                }, {
-                    header   : QUILocale.get(lg, 'controls.bundlemanager.tbl.header.created'),
-                    dataIndex: 'created',
-                    dataType : 'string',
-                    width    : 200
+                    hidden   : true
                 }],
                 pagination       : true,
                 serverSort       : true,
@@ -187,21 +209,28 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
 
             this.$Grid.addEvents({
                 onDblClick: function () {
-                    self.$managePackages(
-                        self.$Grid.getSelectedData()[0].id
-                    );
+                    // @todo
+                    //self.$managePackages(
+                    //    self.$Grid.getSelectedData()[0].id
+                    //);
                 },
-                onClick   : function () {
-                    var selected = self.$Grid.getSelectedData().length;
+                onClick   : function (event) {
+                    var selected = self.$Grid.getSelectedData();
 
                     self.getButtons('delete').enable();
 
-                    if (selected === 1) {
-                        self.getButtons('packages').enable();
-                        self.getButtons('edit').enable();
-                    } else {
-                        self.getButtons('packages').disable();
-                        self.getButtons('edit').disable();
+                    if (!event.cell.hasClass('clickable')) {
+                        return;
+                    }
+
+                    var Row = selected[0];
+
+                    if (Row.userId) {
+                        self.Loader.show();
+
+                        self.$openUserPanel(Row.userId).then(function () {
+                            self.Loader.hide();
+                        });
                     }
                 },
                 onRefresh : this.$listRefresh
@@ -233,8 +262,6 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
             var self = this;
 
             self.getButtons('delete').disable();
-            self.getButtons('packages').disable();
-            self.getButtons('edit').disable();
 
             var GridParams = {
                 sortOn : Grid.getAttribute('sortOn'),
@@ -243,9 +270,19 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                 page   : Grid.getAttribute('page')
             };
 
+            switch (GridParams.sortOn) {
+                case 'status':
+                    GridParams.sortOn = 'useDate';
+                    break;
+
+                case 'user':
+                    GridParams.sortOn = 'userId';
+                    break;
+            }
+
             this.Loader.show();
 
-            BundleHandler.getBundles(GridParams).then(function (ResultData) {
+            InviteCodes.getList(GridParams).then(function (ResultData) {
                 self.Loader.hide();
                 self.$setGridData(ResultData);
             });
@@ -257,42 +294,83 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
          * @param {Object} GridData
          */
         $setGridData: function (GridData) {
-            var self = this;
+            var textUnused    = QUILocale.get(lg, 'controls.manager.tbl.status.unused');
+            var textUnlimited = QUILocale.get(lg, 'controls.manager.tbl.validUntil.unlimited');
 
             for (var i = 0, len = GridData.data.length; i < len; i++) {
                 var Row = GridData.data[i];
 
-                Row.created = Row.createdAt + ' (' + Row.createUser + ')';
-                Row.updated = Row.editAt + ' (' + Row.editUser + ')';
+                if (!Row.email) {
+                    Row.email = '-';
+                }
+
+                var StatusElm = new Element('span', {
+                    'class': 'quiqqer-invitecode-manager-tbl-status'
+                });
+
+                if (!Row.useDate) {
+                    StatusElm.set('html', textUnused);
+                    StatusElm.addClass('quiqqer-invitecode-manager-tbl-status-unused');
+                } else {
+                    StatusElm.set('html', QUILocale.get(lg, 'controls.manager.tbl.status.unused', {
+                        useDate: Row.useDate
+                    }));
+                    StatusElm.addClass('quiqqer-invitecode-manager-tbl-status-used');
+                }
+
+                Row.status = StatusElm;
+
+                if (!Row.validUntilDate) {
+                    Row.validUntilDate = textUnlimited;
+                }
+
+                if (!Row.userId) {
+                    Row.user = new Element('span', {html: '-'});
+                } else {
+                    Row.user = new Element('div', {
+                        'class': 'quiqqer-invitecode-manager-tbl-user',
+                        html   : Row.username
+                    });
+                }
+
+                if (!Row.title) {
+                    Row.title = '-';
+                }
             }
 
             this.$Grid.setData(GridData);
         },
 
         /**
-         * Add new license
+         * Create new InviteCode
+         *
+         * @param {Boolean} [quickCreate]
          */
-        $addBundle: function () {
+        $create: function (quickCreate) {
             var self = this;
 
+            quickCreate = quickCreate || false;
+
+            if (quickCreate) {
+                InviteCodes.create({}).then(function (inviteCodeId) {
+                    if (!inviteCodeId) {
+                        return;
+                    }
+
+                    self.refresh();
+                });
+
+                return;
+            }
+
             var FuncSubmit = function () {
-                var Input = Popup.getContent()
-                    .getElement(
-                        '.quiqqer-license-bundlemanager-add-input'
-                    );
-
-                var title = Input.value.trim();
-
-                if (title === '') {
-                    Input.value = '';
-                    Input.focus();
-                    return;
-                }
+                var Content = Popup.getContent();
+                var Form    = Content.getElement('form');
 
                 Popup.Loader.show();
 
-                BundleHandler.createBundle(title).then(function (PackageBundleData) {
-                    if (!PackageBundleData) {
+                InviteCodes.create(QUIFormUtils.getFormData(Form)).then(function (inviteCodeId) {
+                    if (!inviteCodeId) {
                         Popup.Loader.hide();
                         return;
                     }
@@ -303,45 +381,57 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
             };
 
             // open popup
+            var lgPrefix = 'controls.manager.create.template.';
+
             var Popup = new QUIPopup({
                 icon       : 'fa fa-plus',
                 title      : QUILocale.get(
-                    lg, 'controls.bundlemanager.add.popup.title'
+                    lg, 'controls.manager.create.popup.title'
                 ),
-                maxHeight  : 200,
+                maxHeight  : 375,
                 maxWidth   : 450,
                 events     : {
                     onOpen: function () {
-                        var Input = Popup.getContent()
-                            .getElement(
-                                '.quiqqer-license-bundlemanager-add-input'
-                            );
+                        var Content = Popup.getContent();
+                        var Form    = Content.getElement('form');
 
-                        Input.addEvents({
-                            keyup: function (event) {
-                                if (event.code === 13) {
-                                    FuncSubmit();
-                                    Input.blur();
-                                }
-                            }
+                        Form.addEvent('submit', function (event) {
+                            event.stop();
+                            FuncSubmit();
                         });
 
-                        Input.focus();
+                        var EmailInput       = Content.getElement('input[name="email"]');
+                        var SendMailCheckbox = Content.getElement('input[name="sendmail"]');
+
+                        EmailInput.addEvent('keyup', function (event) {
+                            if (event.target.value.trim() === '') {
+                                SendMailCheckbox.checked  = false;
+                                SendMailCheckbox.disabled = true;
+
+                                return;
+                            }
+
+                            SendMailCheckbox.disabled = false;
+                        });
+
+                        Content.getElement('input[name="title"]').focus();
                     }
                 },
                 closeButton: true,
-                content    : '<label class="quiqqer-license-bundlemanager-add-label">' +
-                '<span>' + QUILocale.get(lg, 'controls.bundlemanager.add.popup.info') + '</span>' +
-                '<input type="text" class="quiqqer-license-bundlemanager-add-input"/>' +
-                '</label>'
+                content    : Mustache.render(templateCreate, {
+                    labelTitle   : QUILocale.get(lg, lgPrefix + 'labelTitle'),
+                    labelEmail   : QUILocale.get(lg, lgPrefix + 'labelEmail'),
+                    labelDate    : QUILocale.get(lg, lgPrefix + 'labelDate'),
+                    labelSendMail: QUILocale.get(lg, lgPrefix + 'labelSendMail')
+                })
             });
 
             Popup.open();
 
             Popup.addButton(new QUIButton({
-                text  : QUILocale.get(lg, 'controls.bundlemanager.add.popup.confirm.btn.text'),
-                alt   : QUILocale.get(lg, 'controls.bundlemanager.add.popup.confirm.btn'),
-                title : QUILocale.get(lg, 'controls.bundlemanager.add.popup.confirm.btn'),
+                text  : QUILocale.get(lg, 'controls.manager.create.popup.btn.confirm_text'),
+                alt   : QUILocale.get(lg, 'controls.manager.create.popup.btn.confirm'),
+                title : QUILocale.get(lg, 'controls.manager.create.popup.btn.confirm'),
                 events: {
                     onClick: FuncSubmit
                 }
@@ -349,138 +439,20 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
         },
 
         /**
-         * Edit bundle
-         */
-        $editBundle: function () {
-            var self              = this;
-            var PackageBundleData = this.$Grid.getSelectedData()[0];
-
-            this.createSheet({
-                title : QUILocale.get(lg, 'controls.bundlemanager.edit.title'),
-                events: {
-                    onShow : function (Sheet) {
-                        var Content = Sheet.getContent();
-
-                        var lgPrefix = 'controls.bundlemanager.edit.template.';
-
-                        Content.set('html', Mustache.render(templateEdit, {
-                            header          : QUILocale.get(lg, lgPrefix + 'header', {
-                                title: PackageBundleData.title,
-                                id   : PackageBundleData.id
-                            }),
-                            labelTitle      : QUILocale.get(lg, lgPrefix + 'labelTitle'),
-                            labelDescription: QUILocale.get(lg, lgPrefix + 'labelDescription'),
-                            title           : PackageBundleData.titles,
-                            description     : PackageBundleData.descriptions
-                        }));
-
-                        Content.setStyle('padding', 20);
-
-                        Sheet.addButton(
-                            new QUIButton({
-                                text     : QUILocale.get('quiqqer/system', 'save'),
-                                textimage: 'fa fa-save',
-                                events   : {
-                                    onClick: function () {
-                                        var Form = Content.getElement('form');
-
-                                        self.Loader.show();
-
-                                        BundleHandler.editBundle(
-                                            PackageBundleData.id,
-                                            QUIFormUtils.getFormData(Form)
-                                        ).then(function () {
-                                            self.Loader.hide();
-                                            Sheet.destroy();
-                                            self.refresh();
-                                        });
-                                    }
-                                }
-                            })
-                        );
-
-                        self.Loader.show();
-
-                        QUI.parse(Content).then(function () {
-                            self.Loader.hide();
-                        });
-                    },
-                    onClose: function (Sheet) {
-                        Sheet.destroy();
-                    }
-                }
-            }).show();
-        },
-
-        /**
-         * Manage packages for a license
-         */
-        $managePackages: function () {
-            var self              = this;
-            var PackageBundleData = self.$Grid.getSelectedData()[0];
-            var BundlePackagesControl;
-
-            // open popup
-            var Popup = new QUIPopup({
-                icon       : 'fa fa-gift',
-                title      : QUILocale.get(
-                    lg, 'controls.bundlemanager.managebundlepackages.popup.title', {
-                        title: PackageBundleData.title
-                    }
-                ),
-                maxHeight  : 800,
-                maxWidth   : 600,
-                events     : {
-                    onOpen: function () {
-                        BundlePackagesControl = new BundlePackages({
-                            bundleId: PackageBundleData.id
-                        }).inject(Popup.getContent());
-                    }
-                },
-                closeButton: true
-            });
-
-            Popup.open();
-
-            Popup.addButton(new QUIButton({
-                text  : QUILocale.get(lg, 'controls.bundlemanager.managebundlepackages.popup.btn.text'),
-                alt   : QUILocale.get(lg, 'controls.bundlemanager.managebundlepackages.popup.btn'),
-                title : QUILocale.get(lg, 'controls.bundlemanager.managebundlepackages.popup.btn'),
-                events: {
-                    onClick: function () {
-                        Popup.Loader.show();
-
-                        BundleHandler.editBundle(PackageBundleData.id, {
-                            packages: BundlePackagesControl.getPackageData()
-                        }).then(function (PackageBundleData) {
-                            if (!PackageBundleData) {
-                                Popup.Loader.hide();
-                                return;
-                            }
-
-                            Popup.close();
-                            self.refresh();
-                        });
-                    }
-                }
-            }));
-        },
-
-        /**
          * Remove all selected licenses
          */
-        $deleteBundles: function () {
-            var self              = this;
-            var deleteBundlesData = [];
-            var deleteBundlesIds  = [];
-            var rows              = this.$Grid.getSelectedData();
+        $delete: function () {
+            var self       = this;
+            var deleteData = [];
+            var deleteIds  = [];
+            var rows       = this.$Grid.getSelectedData();
 
             for (var i = 0, len = rows.length; i < len; i++) {
-                deleteBundlesData.push(
+                deleteData.push(
                     rows[i].title + ' (ID: #' + rows[i].id + ')'
                 );
 
-                deleteBundlesIds.push(rows[i].id);
+                deleteIds.push(rows[i].id);
             }
 
             // open popup
@@ -490,11 +462,11 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
 
                 'information': QUILocale.get(
                     lg,
-                    'controls.bundlemanager.deletebundles.popup.info', {
-                        bundles: deleteBundlesData.join('<br/>')
+                    'controls.manager.delete.popup.info', {
+                        codes: deleteData.join('<br/>')
                     }
                 ),
-                'title'      : QUILocale.get(lg, 'controls.bundlemanager.deletebundles.popup.title'),
+                'title'      : QUILocale.get(lg, 'controls.manager.delete.popup.title'),
                 'texticon'   : 'fa fa-trash',
                 'icon'       : 'fa fa-trash',
 
@@ -510,7 +482,7 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                     onSubmit: function () {
                         Popup.Loader.show();
 
-                        BundleHandler.deleteBundles(deleteBundlesIds).then(function (success) {
+                        InviteCodes.delete(deleteIds).then(function (success) {
                             if (!success) {
                                 Popup.Loader.hide();
                                 return;
@@ -524,6 +496,22 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
             });
 
             Popup.open();
+        },
+
+        /**
+         * Open user panel
+         *
+         * @param {Number} userId
+         */
+        $openUserPanel: function (userId) {
+            return new Promise(function (resolve, reject) {
+                require([
+                    'controls/users/User',
+                    'utils/Panels'
+                ], function (UserPanel, PanelUtils) {
+                    PanelUtils.openPanelInTasks(new UserPanel(userId)).then(resolve, reject);
+                }.bind(this));
+            });
         }
     });
 });
