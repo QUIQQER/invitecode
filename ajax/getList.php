@@ -7,6 +7,7 @@
 use QUI\InviteCode\Handler;
 use QUI\Utils\Security\Orthos;
 use QUI\Utils\Grid;
+use QUI\Permissions\Permission;
 
 /**
  * Get list of InviteCodes
@@ -17,6 +18,8 @@ use QUI\Utils\Grid;
 QUI::$Ajax->registerFunction(
     'package_quiqqer_invitecode_ajax_getList',
     function ($searchParams) {
+        Permission::hasPermission(Handler::PERMISSION_VIEW);
+
         $searchParams = Orthos::clearArray(json_decode($searchParams, true));
         $inviteCodes  = array();
 

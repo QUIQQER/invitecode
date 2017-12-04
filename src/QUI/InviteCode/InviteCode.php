@@ -5,6 +5,7 @@ namespace QUI\InviteCode;
 use QUI;
 use QUI\InviteCode\Exception\InviteCodeException;
 use QUI\InviteCode\Exception\InviteCodeMailException;
+use QUI\Permissions\Permission;
 
 /**
  * Class InviteCode
@@ -68,6 +69,13 @@ class InviteCode
     protected $title;
 
     /**
+     * Flag if mail has been sent
+     *
+     * @var bool
+     */
+    protected $mailSent;
+
+    /**
      * InviteCode constructor.
      *
      * @param int $id - Invite Code ID
@@ -94,9 +102,10 @@ class InviteCode
 
         $data = current($result);
 
-        $this->id    = (int)$data['id'];
-        $this->code  = $data['code'];
-        $this->title = $data['title'];
+        $this->id       = (int)$data['id'];
+        $this->code     = $data['code'];
+        $this->title    = $data['title'];
+        $this->mailSent = boolval($data['mailSent']);
 
         if (!empty($data['userId'])) {
             try {
@@ -206,13 +215,28 @@ class InviteCode
     }
 
     /**
+     * @return bool
+     */
+    public function isMailSent()
+    {
+        return $this->mailSent;
+    }
+
+    /**
      * Send this Invite Code via E-Mail
      *
+     * @param bool $resend (optional) - Send again if already send [default: false]
      * @return void
      * @throws InviteCodeMailException
      */
-    public function sendViaMail()
+    public function sendViaMail($resend = false)
     {
+
+
+        if (!$resend && $this->isMailSent()) {
+            return;
+        }
+
         $email = $this->getEmail();
 
         if (empty($email)) {
@@ -241,7 +265,7 @@ class InviteCode
             ));
         }
 
-        $data['registrationUrl'] = $RegistrationSite->getUrlRewritten();
+        $data['registrationUrl'] = $RegistrationSite->getUrlRewrittenWithHost();
 
         $Engine->assign(array(
             'body' => QUI::getLocale()->get(
@@ -255,8 +279,20 @@ class InviteCode
             'quiqqer/invitecode',
             'mail.invite_code.subject'
         ));
+
         $Mailer->setBody($Engine->fetch($dir . 'mail.invite_code.html'));
         $Mailer->send();
+
+        // update internal flag
+        QUI::getDataBase()->update(
+            Handler::getTable(),
+            array(
+                'mailSent' => 1
+            ),
+            array(
+                'id' => $this->getId()
+            )
+        );
     }
 
     /**
@@ -266,6 +302,8 @@ class InviteCode
      */
     public function delete()
     {
+        Permission::checkPermission(Handler::PERMISSION_DELETE);
+
         QUI::getDataBase()->delete(
             Handler::getTable(),
             array(
@@ -290,7 +328,8 @@ class InviteCode
             'createDate'     => $this->getCreateDate()->format('Y-m-d H:i:s'),
             'useDate'        => false,
             'validUntilDate' => false,
-            'title'          => $this->getTitle() ?: false
+            'title'          => $this->getTitle() ?: false,
+            'mailSent'       => $this->isMailSent()
         );
 
         $User = $this->getUser();

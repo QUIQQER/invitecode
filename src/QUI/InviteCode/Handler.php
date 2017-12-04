@@ -15,6 +15,14 @@ use QUI\InviteCode\Exception\InviteCodeException;
 class Handler
 {
     /**
+     * Permissions
+     */
+    const PERMISSION_VIEW      = 'quiqqer.invitecode.view';
+    const PERMISSION_CREATE    = 'quiqqer.invitecode.create';
+    const PERMISSION_SEND_MAIL = 'quiqqer.invitecode.send_mail';
+    const PERMISSION_DELETE    = 'quiqqer.invitecode.delete';
+
+    /**
      * InviteCode runtime cache
      *
      * @var InviteCode[]

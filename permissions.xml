@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<permissions>
+
+    <permission name="quiqqer.invitecode.view" type="bool">
+        <defaultvalue>0</defaultvalue>
+    </permission>
+    <permission name="quiqqer.invitecode.create" type="bool">
+        <defaultvalue>0</defaultvalue>
+    </permission>
+    <permission name="quiqqer.invitecode.delete" type="bool">
+        <defaultvalue>0</defaultvalue>
+    </permission>
+    <permission name="quiqqer.invitecode.send_mail" type="bool">
+        <defaultvalue>0</defaultvalue>
+    </permission>
+
+</permissions>

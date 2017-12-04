@@ -27,7 +27,7 @@ define('package/quiqqer/invitecode/bin/classes/InviteCodes', [
          */
         create: function (Attributes) {
             return new Promise(function (resolve, reject) {
-                QUIAjax.get('package_quiqqer_invitecode_ajax_create', resolve, {
+                QUIAjax.post('package_quiqqer_invitecode_ajax_create', resolve, {
                     'package' : pkg,
                     attributes: JSON.encode(Attributes),
                     onError   : reject
@@ -43,7 +43,7 @@ define('package/quiqqer/invitecode/bin/classes/InviteCodes', [
          */
         delete: function (ids) {
             return new Promise(function (resolve, reject) {
-                QUIAjax.get('package_quiqqer_invitecode_ajax_delete', resolve, {
+                QUIAjax.post('package_quiqqer_invitecode_ajax_delete', resolve, {
                     'package': pkg,
                     ids      : JSON.encode(ids),
                     onError  : reject
@@ -63,6 +63,24 @@ define('package/quiqqer/invitecode/bin/classes/InviteCodes', [
                     'package'   : pkg,
                     searchParams: JSON.encode(SearchParams),
                     onError     : reject
+                });
+            });
+        },
+
+        /**
+         * Send InviteCodes via mail
+         *
+         * @param {Array} ids
+         * @param {Boolean} resend
+         * @return {Promise}
+         */
+        sendMail: function (ids, resend) {
+            return new Promise(function (resolve, reject) {
+                QUIAjax.post('package_quiqqer_invitecode_ajax_sendMail', resolve, {
+                    'package': pkg,
+                    ids      : JSON.encode(ids),
+                    resend   : resend ? 1 : 0,
+                    onError  : reject
                 });
             });
         }

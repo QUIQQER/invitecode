@@ -9,26 +9,37 @@ use QUI\InviteCode\Handler;
 use QUI\Utils\Security\Orthos;
 
 /**
- * Delete InviteCodes
+ * Send InviteCodes via mail
  *
  * @param array $ids - InviteCode IDs
+ * @param bool $resend - Resend if already sent
  * @return bool - success
  */
 QUI::$Ajax->registerFunction(
-    'package_quiqqer_invitecode_ajax_delete',
-    function ($ids) {
-        $ids = Orthos::clearArray(json_decode($ids, true));
+    'package_quiqqer_invitecode_ajax_sendMail',
+    function ($ids, $resend) {
+        $ids    = Orthos::clearArray(json_decode($ids, true));
+        $resend = boolval($resend);
 
         try {
             foreach ($ids as $id) {
                 $InviteCode = Handler::getInviteCode((int)$id);
-                $InviteCode->delete();
+                $email      = $InviteCode->getEmail();
+
+                // do not send codes without e-mail address
+                if (empty($email)) {
+                    continue;
+                }
+
+                $InviteCode->sendViaMail($resend);
             }
+        } catch (QUI\Permissions\Exception $Exception) {
+            throw $Exception;
         } catch (InviteCodeException $Exception) {
             QUI::getMessagesHandler()->addError(
                 QUI::getLocale()->get(
                     'quiqqer/invitecode',
-                    'message.ajax.delete.error',
+                    'message.ajax.sendMail.error',
                     array(
                         'error' => $Exception->getMessage()
                     )
@@ -36,8 +47,6 @@ QUI::$Ajax->registerFunction(
             );
 
             return false;
-        } catch (QUI\Permissions\Exception $Exception) {
-            throw $Exception;
         } catch (\Exception $Exception) {
             QUI\System\Log::writeException($Exception);
 
@@ -54,12 +63,12 @@ QUI::$Ajax->registerFunction(
         QUI::getMessagesHandler()->addSuccess(
             QUI::getLocale()->get(
                 'quiqqer/invitecode',
-                'message.ajax.delete.success'
+                'message.ajax.sendMail.success'
             )
         );
 
         return true;
     },
-    array('ids'),
+    array('ids', 'resend'),
     'Permission::checkAdminUser'
 );

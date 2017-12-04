@@ -54,6 +54,29 @@
             <de><![CDATA[Legt die Seite fest, deren URL beim Versenden eines Invite-Codes per E-Mail mitgesendet wird.]]></de>
             <en><![CDATA[Specifies the Site whose URL will be emailed when sending an Invite code.]]></en>
         </locale>
+
+        <!-- Permissions -->
+        <locale name="permission.quiqqer.invitecode._header">
+            <de><![CDATA[Invite-Codes]]></de>
+            <en><![CDATA[Invite Codes]]></en>
+        </locale>
+        <locale name="permission.quiqqer.invitecode.view">
+            <de><![CDATA[Darf Liste mit Invite-Codes ansehen]]></de>
+            <en><![CDATA[Is allowed to view Invite Codes list]]></en>
+        </locale>
+        <locale name="permission.quiqqer.invitecode.create">
+            <de><![CDATA[Darf neue Invite-Codes erstellen]]></de>
+            <en><![CDATA[Is allowed to create new Invite Codes]]></en>
+        </locale>
+        <locale name="permission.quiqqer.invitecode.send_mail">
+            <de><![CDATA[Darf Invite-Codes per E-Mail versenden]]></de>
+            <en><![CDATA[Is allowed to send Invite Codes via mail]]></en>
+        </locale>
+        <locale name="permission.quiqqer.invitecode.delete">
+            <de><![CDATA[Darf Invite-Codes löschen]]></de>
+            <en><![CDATA[Is allowed to delete Invite Codes]]></en>
+        </locale>
+
     </groups>
 
     <groups name="quiqqer/invitecode" datatype="php">
@@ -97,6 +120,14 @@
             <de><![CDATA[Die Invite-Codes wurden erfolgreich gelöscht.]]></de>
             <en><![CDATA[The Invite Codes have been deleted successfully.]]></en>
         </locale>
+        <locale name="message.ajax.sendMail.error" html="true">
+            <de><![CDATA[Beim Versenden der Invite-Codes ist ein Fehler aufgetreten:<br><br>[error]]]></de>
+            <en><![CDATA[An error occurred while sending the Invite Codes:<br><br>[error].]]></en>
+        </locale>
+        <locale name="message.ajax.sendMail.success">
+            <de><![CDATA[Die Invite-Codes wurden erfolgreich versandt.]]></de>
+            <en><![CDATA[The Invite Codes have been sent successfully.]]></en>
+        </locale>
 
         <!-- Class: Handler -->
         <locale name="exception.handler.user_already_exists">
@@ -135,8 +166,8 @@
             <en><![CDATA[Invite Code only valid with following E-Mail address (optional)]]></en>
         </locale>
         <locale name="controls.manager.create.template.labelDate">
-            <de><![CDATA[Gültig bis einschließlich (optional)]]></de>
-            <en><![CDATA[Valid until inclusive (optional)]]></en>
+            <de><![CDATA[Einlösbar bis einschließlich (optional)]]></de>
+            <en><![CDATA[Redeemable until inclusive (optional)]]></en>
         </locale>
         <locale name="controls.manager.create.template.labelTitle">
             <de><![CDATA[Verwendungszweck (optional)]]></de>
@@ -166,6 +197,10 @@
             <de><![CDATA[Schnelles Erstellen]]></de>
             <en><![CDATA[Quick Create]]></en>
         </locale>
+        <locale name="controls.manager.tbl.btn.sendmail">
+            <de><![CDATA[Markierte(n) per E-Mail versenden]]></de>
+            <en><![CDATA[Send marked via E-Mail]]></en>
+        </locale>
         <locale name="controls.manager.tbl.btn.delete">
             <de><![CDATA[Markierte(n) löschen]]></de>
             <en><![CDATA[Delete marked]]></en>
@@ -177,6 +212,10 @@
         <locale name="controls.manager.tbl.header.email">
             <de><![CDATA[Verknüpfte E-Mail-Adresse]]></de>
             <en><![CDATA[Linked e-mail address]]></en>
+        </locale>
+        <locale name="controls.manager.tbl.header.mailSent">
+            <de><![CDATA[Mail]]></de>
+            <en><![CDATA[Mail]]></en>
         </locale>
         <locale name="controls.manager.tbl.header.status">
             <de><![CDATA[Status]]></de>
@@ -217,6 +256,18 @@
         <locale name="controls.manager.delete.popup.title">
             <de><![CDATA[Invite-Codes löschen]]></de>
             <en><![CDATA[Delete Invite Codes]]></en>
+        </locale>
+        <locale name="controls.manager.sendmail.popup.info">
+            <de><![CDATA[Sind Sie sicher, dass die markierten Invite-Codes per E-Mail versandt werden sollen? InviteCodes, die keine zugewiesene E-Mail-Adresse haben, werden nicht versandt.]]></de>
+            <en><![CDATA[Are you sure that the marked Invite codes should be sent by e-mail? Invite Codes that do not have an assigned e-mail address will not be sent.]]></en>
+        </locale>
+        <locale name="controls.manager.sendmail.popup.title">
+            <de><![CDATA[Invite-Codes versenden]]></de>
+            <en><![CDATA[Send Invite Codes]]></en>
+        </locale>
+        <locale name="controls.manager.sendmail.popup.label.resend">
+            <de><![CDATA[Invite-Codes, die bereits versendet wurden, nochmals versenden]]></de>
+            <en><![CDATA[Resend Invite Codes that have already been sent]]></en>
         </locale>
         
     </groups>

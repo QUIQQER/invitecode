@@ -53,7 +53,8 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
             '$delete',
             '$editBundle',
             'refresh',
-            '$openUserPanel'
+            '$openUserPanel',
+            '$sendMail'
         ],
 
         options: {
@@ -89,7 +90,7 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                 text     : QUILocale.get(lg, 'controls.manager.tbl.btn.create'),
                 textimage: 'fa fa-plus',
                 events   : {
-                    onClick: function() {
+                    onClick: function () {
                         self.$create();
                     }
                 }
@@ -100,9 +101,20 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                 text     : QUILocale.get(lg, 'controls.manager.tbl.btn.quickcreate'),
                 textimage: 'fa fa-plus',
                 events   : {
-                    onClick: function() {
+                    onClick: function () {
                         self.$create(true);
                     }
+                }
+            });
+
+            this.addButton(new QUISeparator());
+
+            this.addButton({
+                name     : 'sendmail',
+                text     : QUILocale.get(lg, 'controls.manager.tbl.btn.sendmail'),
+                textimage: 'fa fa-envelope-o',
+                events   : {
+                    onClick: this.$sendMail
                 }
             });
 
@@ -181,6 +193,11 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                     dataType : 'string',
                     width    : 200
                 }, {
+                    header   : QUILocale.get(lg, 'controls.manager.tbl.header.mailSent'),
+                    dataIndex: 'mailSent',
+                    dataType : 'node',
+                    width    : 30
+                }, {
                     header   : QUILocale.get(lg, 'controls.manager.tbl.header.user'),
                     dataIndex: 'user',
                     dataType : 'node',
@@ -218,6 +235,7 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                     var selected = self.$Grid.getSelectedData();
 
                     self.getButtons('delete').enable();
+                    self.getButtons('sendmail').enable();
 
                     if (!event.cell.hasClass('clickable')) {
                         return;
@@ -262,6 +280,7 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
             var self = this;
 
             self.getButtons('delete').disable();
+            self.getButtons('sendmail').disable();
 
             var GridParams = {
                 sortOn : Grid.getAttribute('sortOn'),
@@ -336,6 +355,18 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                 if (!Row.title) {
                     Row.title = '-';
                 }
+
+                var MailSentElm = new Element('span', {
+                    'class': 'fa'
+                });
+
+                if (!Row.mailSent) {
+                    MailSentElm.addClass('fa-close');
+                } else {
+                    MailSentElm.addClass('fa-check');
+                }
+
+                Row.mailSent = MailSentElm;
             }
 
             this.$Grid.setData(GridData);
@@ -458,7 +489,7 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
             // open popup
             var Popup = new QUIConfirm({
                 'maxHeight': 300,
-                'autoclose': true,
+                'autoclose': false,
 
                 'information': QUILocale.get(
                     lg,
@@ -468,6 +499,7 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                 ),
                 'title'      : QUILocale.get(lg, 'controls.manager.delete.popup.title'),
                 'texticon'   : 'fa fa-trash',
+                text         : QUILocale.get(lg, 'controls.manager.delete.popup.title'),
                 'icon'       : 'fa fa-trash',
 
                 cancel_button: {
@@ -483,6 +515,72 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                         Popup.Loader.show();
 
                         InviteCodes.delete(deleteIds).then(function (success) {
+                            if (!success) {
+                                Popup.Loader.hide();
+                                return;
+                            }
+
+                            Popup.close();
+                            self.refresh();
+                        });
+                    }
+                }
+            });
+
+            Popup.open();
+        },
+
+        /**
+         * Send InviteCodes via Mail
+         */
+        $sendMail: function () {
+            var self        = this;
+            var sendMailIds = [];
+            var rows        = this.$Grid.getSelectedData();
+
+            for (var i = 0, len = rows.length; i < len; i++) {
+                sendMailIds.push(rows[i].id);
+            }
+
+            // open popup
+            var Popup = new QUIConfirm({
+                'maxHeight': 300,
+                'autoclose': false,
+
+                'information': QUILocale.get(lg, 'controls.manager.sendmail.popup.info'),
+                'title'      : QUILocale.get(lg, 'controls.manager.sendmail.popup.title'),
+                'text'       : QUILocale.get(lg, 'controls.manager.sendmail.popup.title'),
+                'texticon'   : 'fa fa-envelope-o',
+                'icon'       : 'fa fa-envelope-o',
+
+                cancel_button: {
+                    text     : false,
+                    textimage: 'fa fa-remove'
+                },
+                ok_button    : {
+                    text     : false,
+                    textimage: 'fa fa-check'
+                },
+                events       : {
+                    onOpen  : function () {
+                        var Content = Popup.getContent();
+
+                        new Element('label', {
+                            'class': 'quiqqer-invitecode-manager-sendmail-resend',
+                            html: '<span>' +
+                            QUILocale.get(lg, 'controls.manager.sendmail.popup.label.resend') +
+                            '</span>' +
+                            '<input type="checkbox" name="resend"/>'
+                        }).inject(Content);
+                    },
+                    onSubmit: function () {
+                        Popup.Loader.show();
+
+                        var SendMailInput = Popup.getContent().getElement(
+                            'input[name="resend"]'
+                        );
+
+                        InviteCodes.sendMail(sendMailIds, SendMailInput.checked).then(function (success) {
                             if (!success) {
                                 Popup.Loader.hide();
                                 return;

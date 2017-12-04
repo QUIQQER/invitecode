@@ -34,6 +34,9 @@ QUI::$Ajax->registerFunction(
             );
 
             return false;
+
+        } catch (QUI\Permissions\Exception $Exception) {
+            throw $Exception;
         } catch (\Exception $Exception) {
             QUI\System\Log::writeException($Exception);
 

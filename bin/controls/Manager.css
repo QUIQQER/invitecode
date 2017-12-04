@@ -41,3 +41,12 @@
 .quiqqer-invitecode-manager-tbl-status-used {
     color: #608a0e;
 }
+
+.quiqqer-invitecode-manager-sendmail-resend {
+    float: right;
+    margin-top: 20px;
+}
+
+.quiqqer-invitecode-manager-sendmail-resend input {
+    float: left;
+}

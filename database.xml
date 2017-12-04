@@ -11,6 +11,7 @@
             <field type="DATETIME NOT NULL">createDate</field>
             <field type="DATETIME NULL">useDate</field>
             <field type="DATETIME NULL">validUntilDate</field>
+            <field type="TINYINT(1) NOT NULL DEFAULT 0">mailSent</field>
         </table>
     </global>
 
