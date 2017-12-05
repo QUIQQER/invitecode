@@ -264,7 +264,7 @@ class InviteCode
             Handler::getTable(),
             array(
                 'useDate' => $Now->format('Y-m-d H:i:s'),
-                'userId'  => $User->getId()
+                'userId'  => $User->getUniqueId()
             ),
             array(
                 'id' => $this->id
