@@ -76,6 +76,11 @@ class InviteCode
     protected $mailSent;
 
     /**
+     * @var bool
+     */
+    protected $valid = true;
+
+    /**
      * InviteCode constructor.
      *
      * @param int $id - Invite Code ID
@@ -131,6 +136,12 @@ class InviteCode
 
         if (!empty($data['validUntilDate'])) {
             $this->ValidUntilDate = new \DateTime($data['validUntilDate']);
+
+            $Now = new \DateTime();
+
+            if (!$this->isUsed() && $Now > $this->ValidUntilDate) {
+                $this->valid = false;
+            }
         }
     }
 
@@ -223,6 +234,65 @@ class InviteCode
     }
 
     /**
+     * Use this InviteCode
+     *
+     * Hint: This may invalidate the code for future use
+     *
+     * @param QUI\Users\User $User
+     * @return void
+     * @throws InviteCodeException
+     */
+    public function use($User)
+    {
+        if ($this->isUsed()) {
+            throw new InviteCodeException(array(
+                'quiqqer/invitecode',
+                'exception.invitecode.already_used'
+            ));
+        }
+
+        if (!$this->isValid()) {
+            throw new InviteCodeException(array(
+                'quiqqer/invitecode',
+                'exception.invitecode.no_longer_valid'
+            ));
+        }
+
+        $Now = new \DateTime();
+
+        QUI::getDataBase()->update(
+            Handler::getTable(),
+            array(
+                'useDate' => $Now->format('Y-m-d H:i:s'),
+                'userId'  => $User->getId()
+            ),
+            array(
+                'id' => $this->id
+            )
+        );
+
+        $this->UseDate = $Now;
+    }
+
+    /**
+     * Check if this InviteCode is still valid
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        return $this->valid;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUsed()
+    {
+        return !is_null($this->getUseDate());
+    }
+
+    /**
      * Send this Invite Code via E-Mail
      *
      * @param bool $resend (optional) - Send again if already send [default: false]
@@ -231,8 +301,6 @@ class InviteCode
      */
     public function sendViaMail($resend = false)
     {
-
-
         if (!$resend && $this->isMailSent()) {
             return;
         }
@@ -329,7 +397,8 @@ class InviteCode
             'useDate'        => false,
             'validUntilDate' => false,
             'title'          => $this->getTitle() ?: false,
-            'mailSent'       => $this->isMailSent()
+            'mailSent'       => $this->isMailSent(),
+            'valid'          => $this->isValid()
         );
 
         $User = $this->getUser();

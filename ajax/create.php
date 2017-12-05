@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file contains package_quiqqer_invitecode_ajax_settings_getCodeGenerators
+ * This file contains package_quiqqer_invitecode_ajax_create
  */
 
 use QUI\InviteCode\Exception\InviteCodeException;
@@ -10,10 +10,10 @@ use QUI\InviteCode\Handler;
 use QUI\Utils\Security\Orthos;
 
 /**
- * Create new InviteCode
+ * Create new InviteCode(s)
  *
  * @param array $attributes
- * @return int|false - New InviteCode ID or false on error
+ * @return bool - success
  */
 QUI::$Ajax->registerFunction(
     'package_quiqqer_invitecode_ajax_create',
@@ -21,7 +21,17 @@ QUI::$Ajax->registerFunction(
         $attributes = Orthos::clearArray(json_decode($attributes, true));
 
         try {
-            $InviteCode = Handler::createInviteCode($attributes);
+            $amount      = 1;
+            $inviteCodes = array();
+
+            if (!empty($attributes['amount'])) {
+                $amount = (int)$attributes['amount'];
+                unset($attributes['amount']);
+            }
+
+            for ($i = 0; $i < $amount; $i++) {
+                $inviteCodes[] = Handler::createInviteCode($attributes);
+            }
         } catch (InviteCodeException $Exception) {
             QUI::getMessagesHandler()->addError(
                 QUI::getLocale()->get(
@@ -59,7 +69,9 @@ QUI::$Ajax->registerFunction(
 
         if (!empty($attributes['sendmail'])) {
             try {
-                $InviteCode->sendViaMail();
+                foreach ($inviteCodes as $InviteCode) {
+                    $InviteCode->sendViaMail();
+                }
             } catch (InviteCodeMailException $Exception) {
                 QUI::getMessagesHandler()->addError(
                     QUI::getLocale()->get(
@@ -89,7 +101,7 @@ QUI::$Ajax->registerFunction(
             );
         }
 
-        return $InviteCode->getId();
+        return true;
     },
     array('attributes'),
     'Permission::checkAdminUser'

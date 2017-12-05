@@ -42,6 +42,11 @@
     color: #608a0e;
 }
 
+.quiqqer-invitecode-manager-tbl-status-invalid {
+    color: #454545;
+    font-style: italic;
+}
+
 .quiqqer-invitecode-manager-sendmail-resend {
     float: right;
     margin-top: 20px;

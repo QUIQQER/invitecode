@@ -1,0 +1,40 @@
+.quiqqer-invitecode-registrar,
+.quiqqer-invitecode-registrar section {
+    float: left;
+    width: 100%;
+}
+
+.quiqqer-invitecode-registrar fieldset {
+    border: none;
+    margin-bottom: 10px;
+}
+
+.quiqqer-invitecode-registrar label,
+.quiqqer-invitecode-registrar fieldset {
+    float: left;
+    width: 100%;
+}
+
+.quiqqer-invitecode-registrar-field-title {
+    float: left;
+    width: 40%;
+}
+
+.quiqqer-invitecode-registrar-field-element {
+    float: left;
+    width: 60%;
+}
+
+.quiqqer-invitecode-registrar-field-error-msg {
+    color: #ff0000;
+    padding-left:40%;
+    width: 100%;
+}
+
+.quiqqer-invitecode-registrar-field-error {
+    box-shadow: 0 0 0 2px #ff0000;
+}
+
+.quiqqer-invitecode-registrar button[disabled] {
+    cursor: not-allowed;
+}

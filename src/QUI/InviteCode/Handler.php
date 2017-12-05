@@ -29,6 +29,12 @@ class Handler
      */
     protected static $inviteCodes = array();
 
+    /**
+     * Get InviteCode
+     *
+     * @param int $id
+     * @return InviteCode
+     */
     public static function getInviteCode($id)
     {
         if (isset(self::$inviteCodes[$id])) {
@@ -38,6 +44,40 @@ class Handler
         self::$inviteCodes[$id] = new InviteCode($id);
 
         return self::$inviteCodes[$id];
+    }
+
+    /**
+     * Get InviteCode by its actual code
+     *
+     * @param string $code
+     * @return InviteCode
+     *
+     * @throws InviteCodeException
+     */
+    public static function getInviteCodeByCode($code)
+    {
+        $result = QUI::getDataBase()->fetch(array(
+            'select' => array(
+                'id'
+            ),
+            'from'   => self::getTable(),
+            'where'  => array(
+                'code' => $code
+            ),
+            'limit'  => 1
+        ));
+
+        if (empty($result)) {
+            throw new InviteCodeException(array(
+                'quiqqer/invitecode',
+                'exception.handler.code_not_found',
+                array(
+                    'code' => $code
+                )
+            ), 404);
+        }
+
+        return self::getInviteCode($result[0]['id']);
     }
 
     /**

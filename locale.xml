@@ -77,6 +77,16 @@
             <en><![CDATA[Is allowed to delete Invite Codes]]></en>
         </locale>
 
+        <!-- Registrar -->
+        <locale name="registrar.label.email">
+            <de><![CDATA[E-Mail]]></de>
+            <en><![CDATA[E-Mail]]></en>
+        </locale>
+        <locale name="registrar.label.invitecode">
+            <de><![CDATA[Invite-Code]]></de>
+            <en><![CDATA[Invite Code]]></en>
+        </locale>
+
     </groups>
 
     <groups name="quiqqer/invitecode" datatype="php">
@@ -86,6 +96,22 @@
             <de><![CDATA[Der Invite-Code mit ID #[id] wurde nicht gefunden.]]></de>
             <en><![CDATA[Invite Code with ID #[id] was not found.]]></en>
         </locale>
+        <locale name="exception.invitecode.already_used">
+            <de><![CDATA[Dieser Invite-Code wurde bereits verwendet.]]></de>
+            <en><![CDATA[This Invite Code has already been used.]]></en>
+        </locale>
+        <locale name="exception.invitecode.no_longer_valid">
+            <de><![CDATA[Dieser Invite-Code ist nicht mehr gültig.]]></de>
+            <en><![CDATA[This Invite Code is no longer valid.]]></en>
+        </locale>
+        <locale name="exception.invitecode.no_email">
+            <de><![CDATA[Der Invite-Code ist nicht mit einer E-Mail-Adresse verknüpft.]]></de>
+            <en><![CDATA[The Invite Code has no e-mail address assigned.]]></en>
+        </locale>
+        <locale name="exception.invitecode.no_registration_site">
+            <de><![CDATA[Es wurde keine Seite festgelegt, die in der Invite-Code E-Mail verlinkt werden kann.]]></de>
+            <en><![CDATA[No Site has been configured of which a link can be put in the Invite Code e-mail.]]></en>
+        </locale>
 
         <!-- Ajax -->
         <locale name="message.ajax.general_error">
@@ -93,12 +119,12 @@
             <en><![CDATA[An unexpected error occurred while processing the request. Please check the error logs or contact an administrator.]]></en>
         </locale>
         <locale name="message.ajax.create.error" html="true">
-            <de><![CDATA[Der Invite-Code konnte nicht erstellt werden:<br><br>[error]]]></de>
-            <en><![CDATA[The Invite Code could not be created:<br><br>[error]]]></en>
+            <de><![CDATA[Die Invite-Codes konnten nicht erstellt werden:<br><br>[error]]]></de>
+            <en><![CDATA[The Invite Codes could not be created:<br><br>[error]]]></en>
         </locale>
         <locale name="message.ajax.create.success">
-            <de><![CDATA[Der Invite-Code wurde erfolgreich erstellt.]]></de>
-            <en><![CDATA[The Invite Code has been successfully created.]]></en>
+            <de><![CDATA[Die Invite-Codes wurden erfolgreich erstellt.]]></de>
+            <en><![CDATA[The Invite Codes have been successfully created.]]></en>
         </locale>
         <locale name="message.ajax.create.send_mail.error" html="true">
             <de><![CDATA[Beim Versenden des Invite-Codes ist ein Fehler aufgetreten:<br><br>[error]]]></de>
@@ -109,8 +135,8 @@
             <en><![CDATA[An unexpected error occurred while sending the Invite Code. Please check the error logs or contact an administrator.]]></en>
         </locale>
         <locale name="message.ajax.create.send_mail.success">
-            <de><![CDATA[Der Invite-Code wurde erfolgreich versandt.]]></de>
-            <en><![CDATA[The Invite Code was successfully sent.]]></en>
+            <de><![CDATA[Die Invite-Codes wurden erfolgreich versandt.]]></de>
+            <en><![CDATA[The Invite Codes have been successfully sent.]]></en>
         </locale>
         <locale name="message.ajax.delete.error" html="true">
             <de><![CDATA[Beim Löschen der Invite-Codes ist ein Fehler aufgetreten:<br><br>[error]]]></de>
@@ -150,6 +176,34 @@
             <de><![CDATA[Dein exklusiver Invite-Code]]></de>
             <en><![CDATA[Your exclusive Invite Code]]></en>
         </locale>
+        <locale name="exception.handler.code_not_found">
+            <de><![CDATA[Der Invite-Code "[code]" wurde nicht gefunden.]]></de>
+            <en><![CDATA[The Invite Code "[code]" was not found.]]></en>
+        </locale>
+
+        <!-- Class: Registrar/Registrar -->
+        <locale name="registrar.title">
+            <de><![CDATA[Registrierung per Invite-Code]]></de>
+            <en><![CDATA[Registration via Invite Code]]></en>
+        </locale>
+        <locale name="registrar.description">
+            <de>
+                <![CDATA[Registrierung per vorher generiertem Invite-Code und einer E-Mail-Adresse. Eine E-Mail-Adresse kann optional an den Invite-Code gebunden werden, sodass ein Benutzer sich nur mit einem gültigen Invite-Code i.V.m. der verknüpften E-Mail-Adresse registrieren kann.]]></de>
+            <en>
+                <![CDATA[Registration via previously generated Invite Code and an e-mail address. An e-mail address can optionally be linked to the Invite Code so that a user can only sign up with a valid Invite Code and the linked e-mail address.]]></en>
+        </locale>
+        <locale name="exception.registrar.invalid_code">
+            <de><![CDATA[Der Invite-Code ist ungültig.]]></de>
+            <en><![CDATA[The Invite Code is invalid.]]></en>
+        </locale>
+        <locale name="exception.registrar.empty_email">
+            <de><![CDATA[Bitte geben Sie eine E-Mail-Adresse an.]]></de>
+            <en><![CDATA[Please provide an e-mail address.]]></en>
+        </locale>
+        <locale name="exception.registrar.email_invalid">
+            <de><![CDATA[Bitte geben Sie eine gültige E-Mail-Adresse an.]]></de>
+            <en><![CDATA[Please provide a valid e-mail address.]]></en>
+        </locale>
 
     </groups>
 
@@ -176,6 +230,10 @@
         <locale name="controls.manager.create.template.labelSendMail">
             <de><![CDATA[Invite-Code nach Erstellung per E-Mail versenden]]></de>
             <en><![CDATA[Send Invite Code via mail after creation]]></en>
+        </locale>
+        <locale name="controls.manager.create.template.labelAmount">
+            <de><![CDATA[Anzahl]]></de>
+            <en><![CDATA[Amount]]></en>
         </locale>
         <locale name="controls.manager.create.popup.title">
             <de><![CDATA[Neuen Invite-Code erstellen]]></de>
@@ -241,6 +299,10 @@
             <de><![CDATA[nicht eingelöst]]></de>
             <en><![CDATA[nicht eingelöst]]></en>
         </locale>
+        <locale name="controls.manager.tbl.status.invalid">
+            <de><![CDATA[nicht mehr einlösbar (abgelaufen)]]></de>
+            <en><![CDATA[nicht mehr einlösbar (abgelaufen)]]></en>
+        </locale>
         <locale name="controls.manager.tbl.status.used">
             <de><![CDATA[eingelöst - [useDate]]]></de>
             <en><![CDATA[redeemed - [useDate]]]></en>
@@ -269,7 +331,7 @@
             <de><![CDATA[Invite-Codes, die bereits versendet wurden, nochmals versenden]]></de>
             <en><![CDATA[Resend Invite Codes that have already been sent]]></en>
         </locale>
-        
+
     </groups>
 
 </locales>

@@ -6,7 +6,6 @@
  */
 define('package/quiqqer/invitecode/bin/controls/Manager', [
 
-    'qui/QUI',
     'qui/controls/desktop/Panel',
     'qui/controls/loader/Loader',
     'qui/controls/windows/Popup',
@@ -15,22 +14,19 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
     'qui/controls/buttons/Separator',
 
     'controls/grid/Grid',
-    'utils/Controls',
     'qui/utils/Form',
 
     'package/quiqqer/invitecode/bin/InviteCodes',
 
     'Locale',
-    'Ajax',
     'Mustache',
 
     'text!package/quiqqer/invitecode/bin/controls/Manager.html',
     'text!package/quiqqer/invitecode/bin/controls/Manager.Create.html',
     'css!package/quiqqer/invitecode/bin/controls/Manager.css'
 
-], function (QUI, QUIPanel, QUILoader, QUIPopup, QUIConfirm, QUIButton, QUISeparator,
-             Grid, QUIControlUtils, QUIFormUtils, InviteCodes,
-             QUILocale, QUIAjax, Mustache, template, templateCreate) {
+], function (QUIPanel, QUILoader, QUIPopup, QUIConfirm, QUIButton, QUISeparator,
+             Grid, QUIFormUtils, InviteCodes, QUILocale, Mustache, template, templateCreate) {
     "use strict";
 
     var lg = 'quiqqer/invitecode';
@@ -315,6 +311,7 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
         $setGridData: function (GridData) {
             var textUnused    = QUILocale.get(lg, 'controls.manager.tbl.status.unused');
             var textUnlimited = QUILocale.get(lg, 'controls.manager.tbl.validUntil.unlimited');
+            var textInvalid   = QUILocale.get(lg, 'controls.manager.tbl.status.invalid');
 
             for (var i = 0, len = GridData.data.length; i < len; i++) {
                 var Row = GridData.data[i];
@@ -327,11 +324,14 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                     'class': 'quiqqer-invitecode-manager-tbl-status'
                 });
 
-                if (!Row.useDate) {
+                if (!Row.valid) {
+                    StatusElm.set('html', textInvalid);
+                    StatusElm.addClass('quiqqer-invitecode-manager-tbl-status-invalid');
+                } else if (!Row.useDate) {
                     StatusElm.set('html', textUnused);
                     StatusElm.addClass('quiqqer-invitecode-manager-tbl-status-unused');
                 } else {
-                    StatusElm.set('html', QUILocale.get(lg, 'controls.manager.tbl.status.unused', {
+                    StatusElm.set('html', QUILocale.get(lg, 'controls.manager.tbl.status.used', {
                         useDate: Row.useDate
                     }));
                     StatusElm.addClass('quiqqer-invitecode-manager-tbl-status-used');
@@ -419,7 +419,7 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                 title      : QUILocale.get(
                     lg, 'controls.manager.create.popup.title'
                 ),
-                maxHeight  : 375,
+                maxHeight  : 450,
                 maxWidth   : 450,
                 events     : {
                     onOpen: function () {
@@ -453,7 +453,8 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                     labelTitle   : QUILocale.get(lg, lgPrefix + 'labelTitle'),
                     labelEmail   : QUILocale.get(lg, lgPrefix + 'labelEmail'),
                     labelDate    : QUILocale.get(lg, lgPrefix + 'labelDate'),
-                    labelSendMail: QUILocale.get(lg, lgPrefix + 'labelSendMail')
+                    labelSendMail: QUILocale.get(lg, lgPrefix + 'labelSendMail'),
+                    labelAmount  : QUILocale.get(lg, lgPrefix + 'labelAmount')
                 })
             });
 
@@ -567,7 +568,7 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
 
                         new Element('label', {
                             'class': 'quiqqer-invitecode-manager-sendmail-resend',
-                            html: '<span>' +
+                            html   : '<span>' +
                             QUILocale.get(lg, 'controls.manager.sendmail.popup.label.resend') +
                             '</span>' +
                             '<input type="checkbox" name="resend"/>'

@@ -1,0 +1,45 @@
+<section>
+
+    <fieldset class="quiqqer-invitecode-registrar-invitecode">
+        <label>
+            <span class="quiqqer-invitecode-registrar-field-title">
+                {locale group="quiqqer/invitecode" var="registrar.label.invitecode"} *
+            </span>
+
+            <input type="text" name="invitecode"
+                   value="{if isset($fields['invitecode'])}{$fields['invitecode']}{/if}"
+                   class="quiqqer-invitecode-registrar-field-element{if isset($invalidFields['invitecode'])} quiqqer-invitecode-registrar-field-error{/if}"
+                   required/>
+            {if isset($invalidFields['invitecode'])}
+            <span class="quiqqer-invitecode-registrar-field-error-msg">
+                    {$invalidFields['invitecode']->getMsg()}
+                </span>
+            {/if}
+        </label>
+    </fieldset>
+
+    <fieldset class="quiqqer-invitecode-registrar-email">
+        <label>
+            <span class="quiqqer-invitecode-registrar-field-title">
+                {locale group="quiqqer/invitecode" var="registrar.label.email"} *
+            </span>
+
+            <input type="email" name="email"
+                   value="{if isset($fields['email'])}{$fields['email']}{/if}"
+                   class="quiqqer-invitecode-registrar-field-element{if isset($invalidFields['email'])} quiqqer-invitecode-registrar-field-error{/if}"
+                   required/>
+            {if isset($invalidFields['email'])}
+            <span class="quiqqer-invitecode-registrar-field-error-msg">
+                    {$invalidFields['email']->getMsg()}
+                </span>
+            {/if}
+        </label>
+    </fieldset>
+
+    <button type="submit"
+            class="btn-green grid-60 mobile-grid-100 push-40 mobile-push-0">
+    {locale group="quiqqer/frontend-users"
+    var="registrars.email.btn.submit"}
+    </button>
+
+</section>

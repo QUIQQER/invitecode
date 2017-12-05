@@ -21,5 +21,9 @@
         </preview>
         -->
 
+        <provider>
+            <registrar src="\QUI\InviteCode\Registrar\Registrar"/>
+        </provider>
+
     </package>
 </quiqqer>
