@@ -25,6 +25,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     /**
      * @param QUI\Interfaces\Users\User $User
      * @return void
+     * @throws QUI\InviteCode\Exception\InviteCodeException
      */
     public function onRegistered(QUI\Interfaces\Users\User $User)
     {
@@ -41,7 +42,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     }
 
     /**
-     * @throws FrontendUsers\Exception
+     * @throws InviteCodeRegistrarException
      */
     public function validate()
     {

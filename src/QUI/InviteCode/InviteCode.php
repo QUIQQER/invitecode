@@ -236,7 +236,7 @@ class InviteCode
     /**
      * Use this InviteCode
      *
-     * Hint: This may invalidate the code for future use
+     * Hint: This invalidates the code for future use
      *
      * @param QUI\Users\User $User
      * @return void
