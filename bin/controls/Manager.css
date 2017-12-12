@@ -55,3 +55,8 @@
 .quiqqer-invitecode-manager-sendmail-resend input {
     float: left;
 }
+
+.quiqqer-invitecode-manager-tbl-user-not_exist {
+    color: #999;
+    font-style: italic;
+}

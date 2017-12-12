@@ -311,6 +311,10 @@
             <de><![CDATA[unbegrenzt]]></de>
             <en><![CDATA[not limited]]></en>
         </locale>
+        <locale name="controls.manager.tbl.user.not_exist">
+            <de><![CDATA[Benutzer existiert nicht mehr]]></de>
+            <en><![CDATA[User does not exist anymore]]></en>
+        </locale>
         <locale name="controls.manager.delete.popup.info">
             <de><![CDATA[Sind Sie sicher, dass Sie die folgenden Invite-Codes unwiderruflich löschen wollen?<br><br>[codes]]]></de>
             <en><![CDATA[Are you sure you want to irrevocably delete the following Invite Codes?<br><br>[codes]]]></en>
