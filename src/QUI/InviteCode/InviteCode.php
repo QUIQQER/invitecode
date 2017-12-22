@@ -116,11 +116,11 @@ class InviteCode
             try {
                 $this->User = QUI::getUsers()->get($data['userId']);
             } catch (\Exception $Exception) {
-                QUI\System\Log::addWarning(
-                    'Could not find User #' . $data['userId'] . ' for Invite Code #' . $this->id . '.'
-                );
-
-                QUI\System\Log::writeException($Exception);
+//                QUI\System\Log::addWarning(
+//                    'Could not find User #' . $data['userId'] . ' for Invite Code #' . $this->id . '.'
+//                );
+//
+//                QUI\System\Log::writeException($Exception);
             }
         }
 

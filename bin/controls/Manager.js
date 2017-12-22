@@ -309,9 +309,10 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
          * @param {Object} GridData
          */
         $setGridData: function (GridData) {
-            var textUnused    = QUILocale.get(lg, 'controls.manager.tbl.status.unused');
-            var textUnlimited = QUILocale.get(lg, 'controls.manager.tbl.validUntil.unlimited');
-            var textInvalid   = QUILocale.get(lg, 'controls.manager.tbl.status.invalid');
+            var textUnused       = QUILocale.get(lg, 'controls.manager.tbl.status.unused');
+            var textUnlimited    = QUILocale.get(lg, 'controls.manager.tbl.validUntil.unlimited');
+            var textInvalid      = QUILocale.get(lg, 'controls.manager.tbl.status.invalid');
+            var textUserNotExist = QUILocale.get(lg, 'controls.manager.tbl.user.not_exist');
 
             for (var i = 0, len = GridData.data.length; i < len; i++) {
                 var Row = GridData.data[i];
@@ -344,7 +345,14 @@ define('package/quiqqer/invitecode/bin/controls/Manager', [
                 }
 
                 if (!Row.userId) {
-                    Row.user = new Element('span', {html: '-'});
+                    if (Row.useDate) {
+                        Row.user = new Element('span', {
+                            'class': 'quiqqer-invitecode-manager-tbl-user-not_exist',
+                            html   : textUserNotExist
+                        });
+                    } else {
+                        Row.user = new Element('span', {html: '-'});
+                    }
                 } else {
                     Row.user = new Element('div', {
                         'class': 'quiqqer-invitecode-manager-tbl-user',
