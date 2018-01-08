@@ -321,8 +321,21 @@ class InviteCode
         $Engine = QUI::getTemplateManager()->getEngine();
         $dir    = QUI::getPackage('quiqqer/invitecode')->getDir() . 'templates/';
         $data   = array(
-            'code' => $this->getCode()
+            'code'           => $this->getCode(),
+            'validUntilText' => ''
         );
+
+        $validUntilDate = $this->getValidUntilDate();
+
+        if (!empty($validUntilDate)) {
+            $data['validUntilText'] = QUI::getLocale()->get(
+                'quiqqer/invitecode',
+                'mail.invite_code.body.valid_until',
+                array(
+                    'date' => QUI::getLocale()->formatDate($validUntilDate->getTimestamp())
+                )
+            );
+        }
 
         $RegistrationSite = Handler::getRegistrationSite();
 
