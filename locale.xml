@@ -170,8 +170,19 @@
 <p>Dein exklusiver Invite-Code lautet: [code]</p>]]></de>
             <en><![CDATA[<h1>Greetings!</h1>
 <p>You are invited to visit <a href="[registrationUrl]">[registrationUrl]</a> and register a user account.</p>
-<p>Your exclusive Invite-Code is: [code]</p>]]></en>
+<p>Your exclusive Invite Code is: [code]</p>]]></en>
         </locale>
+        <locale name="mail.invite_code.body_date" html="true">
+            <de><![CDATA[<h1>Hallo!</h1>
+<p>Du bist herzlich eingeladen <a href="[registrationUrl]">[registrationUrl]</a> zu besuchen und Dich zu registrieren.</p>
+<p>Dein exklusiver Invite-Code lautet: [code]</p>
+<p>Der Invite-Code ist gültig bis einschließlich [validUntilDate].</p>]]></de>
+            <en><![CDATA[<h1>Greetings!</h1>
+<p>You are invited to visit <a href="[registrationUrl]">[registrationUrl]</a> and register a user account.</p>
+<p>Your exclusive Invite Code is: [code]</p>
+<p>The Invite Code is valid up to and including [validUntilDate].</p>]]></en>
+        </locale>
+
         <locale name="mail.invite_code.subject">
             <de><![CDATA[Dein exklusiver Invite-Code]]></de>
             <en><![CDATA[Your exclusive Invite Code]]></en>
