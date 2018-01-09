@@ -318,24 +318,13 @@ class InviteCode
 
         $Mailer->addRecipient($email);
 
-        $Engine = QUI::getTemplateManager()->getEngine();
-        $dir    = QUI::getPackage('quiqqer/invitecode')->getDir() . 'templates/';
-        $data   = array(
-            'code'           => $this->getCode(),
-            'validUntilText' => ''
-        );
-
+        $Engine         = QUI::getTemplateManager()->getEngine();
+        $dir            = QUI::getPackage('quiqqer/invitecode')->getDir() . 'templates/';
         $validUntilDate = $this->getValidUntilDate();
-
-        if (!empty($validUntilDate)) {
-            $data['validUntilText'] = QUI::getLocale()->get(
-                'quiqqer/invitecode',
-                'mail.invite_code.body.valid_until',
-                array(
-                    'date' => QUI::getLocale()->formatDate($validUntilDate->getTimestamp())
-                )
-            );
-        }
+        $data           = array(
+            'code'           => $this->getCode(),
+            'validUntilDate' => empty($validUntilDate) ? '' : QUI::getLocale()->formatDate($validUntilDate->getTimestamp())
+        );
 
         $RegistrationSite = Handler::getRegistrationSite();
 
@@ -348,10 +337,16 @@ class InviteCode
 
         $data['registrationUrl'] = $RegistrationSite->getUrlRewrittenWithHost();
 
+        if (empty($validUntilDate)) {
+            $translationVar = 'mail.invite_code.body';
+        } else {
+            $translationVar = 'mail.invite_code.body_date';
+        }
+
         $Engine->assign(array(
             'body' => QUI::getLocale()->get(
                 'quiqqer/invitecode',
-                'mail.invite_code.body',
+                $translationVar,
                 $data
             )
         ));
