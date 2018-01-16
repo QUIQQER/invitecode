@@ -18,7 +18,7 @@
   },
   "require": {
     "quiqqer\/frontend-users": ">=1.0|dev-master",
-    "quiqqer\/quiqqer": "*@dev"
+    "quiqqer\/quiqqer": ">=1.1|dev-master"
   },
   "autoload": {
     "psr-4": {
