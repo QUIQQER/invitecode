@@ -336,6 +336,8 @@ class InviteCode
         }
 
         $data['registrationUrl'] = $RegistrationSite->getUrlRewrittenWithHost();
+        $data['email']           = $email;
+        $data['inviteCode']      = $this->getCode();
 
         if (empty($validUntilDate)) {
             $translationVar = 'mail.invite_code.body';
