@@ -3,7 +3,10 @@
     "type": "quiqqer-module",
     "description": "Generate and manage Invite Codes to register and identify users in your system",
     "version": "dev-dev",
-    "license": "GPL-3.0+",
+    "license": [
+        "PCSG QL-1.0",
+        "CC BY-NC-SA 4.0"
+    ],
     "authors": [
         {
             "name": "Patrick M\u00fcller",
