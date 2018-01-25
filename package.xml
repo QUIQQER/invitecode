@@ -9,13 +9,13 @@
         </description>
 
         <!-- Hauptbild -->
-        <image src="URL_OPT_DIR/quiqqer/quiqqer/bin/quiqqer_logo.png"/>
+        <image src="URL_OPT_DIR/quiqqer/invitecode/bin/images/Logo.png"/>
 
         <!-- More preview images -->
         <preview>
-            <image src="URL_OPT_DIR/quiqqer/invitecode/bin/preview/Frontend_Registrar.png"/>
-            <image src="URL_OPT_DIR/quiqqer/invitecode/bin/preview/Backend_View.png"/>
-            <image src="URL_OPT_DIR/quiqqer/invitecode/bin/preview/Settings.png"/>
+            <image src="URL_OPT_DIR/quiqqer/invitecode/bin/images/preview/Frontend_Registrar.png"/>
+            <image src="URL_OPT_DIR/quiqqer/invitecode/bin/images/preview/Backend_View.png"/>
+            <image src="URL_OPT_DIR/quiqqer/invitecode/bin/images/preview/Settings.png"/>
         </preview>
 
         <support>
