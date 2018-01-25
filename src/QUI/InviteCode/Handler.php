@@ -120,7 +120,7 @@ class Handler
                 }
             }
 
-            $inviteCode['email'] = $data['email'];
+            $inviteCode['email'] = trim($data['email']);
         }
 
         QUI::getDataBase()->insert(
