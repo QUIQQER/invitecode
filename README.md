@@ -1,3 +1,5 @@
+![QUIQQER Invite Code](bin/images/Readme.jpg)
+
 QUIQQER Invite Codes
 ========
 
