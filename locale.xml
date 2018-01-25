@@ -87,6 +87,32 @@
             <en><![CDATA[Invite Code]]></en>
         </locale>
 
+        <!-- Cron -->
+        <locale name="cron.delete_expired.title">
+            <de><![CDATA[Abgelaufene Invite-Codes löschen]]></de>
+            <en><![CDATA[Delete expired Invite Codes]]></en>
+        </locale>
+        <locale name="cron.delete_expired.description">
+            <de><![CDATA[Löscht unwiderruflich alle Invite-Codes, die abgelaufen sind. Optional kann festgelegt werden, wieviel Tage ein Invite-Code abgelaufen sein muss, bevor er gelöscht wird.]]></de>
+            <en><![CDATA[Irrevocably deletes all expired Invite Codes. Optionally you can determine for how many days an Invite Code must be expired before it is deleted.]]></en>
+        </locale>
+        <locale name="cron.delete_expired.param.days">
+            <de><![CDATA[Anzahl der Tage, die ein Invite-Code abgelaufen sein muss, bevor er durch diesen Cron gelöscht wird.]]></de>
+            <en><![CDATA[Number of days an Invite Code has to be expired before it is deleted by this cronjob.]]></en>
+        </locale>
+        <locale name="cron.delete_redeemed.title">
+            <de><![CDATA[Eingelöst Invite-Codes löschen]]></de>
+            <en><![CDATA[Delete redeemed Invite Codes]]></en>
+        </locale>
+        <locale name="cron.delete_redeemed.description">
+            <de><![CDATA[Löscht unwiderruflich alle Invite-Codes, die eingelöst sind. Optional kann festgelegt werden, wieviel Tage ein Invite-Code eingelöst sein muss, bevor er gelöscht wird.]]></de>
+            <en><![CDATA[Irrevocably deletes all redeemed Invite Codes. Optionally you can determine for how many days an Invite Code must be redeemed before it is deleted.]]></en>
+        </locale>
+        <locale name="cron.delete_redeemed.param.days">
+            <de><![CDATA[Anzahl der Tage, die ein Invite-Code eingelöst sein muss, bevor er durch diesen Cron gelöscht wird.]]></de>
+            <en><![CDATA[Number of days an Invite Code has to be redeemed before it is deleted by this cronjob.]]></en>
+        </locale>
+
     </groups>
 
     <groups name="quiqqer/invitecode" datatype="php">

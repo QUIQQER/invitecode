@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<crons>
+    <cron exec="\QUI\InviteCode\Cron::deleteExpiredInviteCodes">
+        <title>
+            <locale group="quiqqer/invitecode" var="cron.delete_expired.title" />
+        </title>
+        <description>
+            <locale group="quiqqer/invitecode" var="cron.delete_expired.description" />
+        </description>
+
+        <!-- available params -->
+        <params>
+            <param name="days">
+                <locale group="quiqqer/invitecode" var="cron.delete_expired.param.days" />
+            </param>
+        </params>
+    </cron>
+
+    <cron exec="\QUI\InviteCode\Cron::deleteRedeemedInviteCodes">
+        <title>
+            <locale group="quiqqer/invitecode" var="cron.delete_redeemed.title" />
+        </title>
+        <description>
+            <locale group="quiqqer/invitecode" var="cron.delete_redeemed.description" />
+        </description>
+
+        <!-- available params -->
+        <params>
+            <param name="days">
+                <locale group="quiqqer/invitecode" var="cron.delete_redeemed.param.days" />
+            </param>
+        </params>
+    </cron>
+</crons>

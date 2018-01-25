@@ -284,6 +284,75 @@ class Handler
     }
 
     /**
+     * Deletes all InviteCodes that are expired
+     *
+     * @param int $days (optional) - Delete expired Codes that are older than X days [default: delete all]
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public static function deleteExpiredInviteCodes($days = null)
+    {
+        $Now   = new \DateTime();
+        $where = array(
+            'validUntilDate' => array(
+                'type'  => '<=',
+                'value' => $Now->format('Y-m-d H:i:s')
+            )
+        );
+
+        if (!is_null($days)) {
+            $days    = (int)$days;
+            $OldDate = new \DateTime();
+            $OldDate->sub(new \DateInterval('P' . $days . 'D'));
+
+            $where['validUntilDate'] = array(
+                'type'  => '<=',
+                'value' => $OldDate->format('Y-m-d H:i:s')
+            );
+        }
+
+        QUI::getDataBase()->delete(
+            self::getTable(),
+            $where
+        );
+    }
+
+    /**
+     * Deletes all InviteCodes that have been redeemed
+     *
+     * @param int $days (optional) - Delete redeemed Codes that are older than X days [default: delete all]
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public static function deleteRedeemedInviteCodes($days = null)
+    {
+        $where = array(
+            'useDate' => array(
+                'type'  => 'NOT',
+                'value' => null
+            )
+        );
+
+        if (!is_null($days)) {
+            $days    = (int)$days;
+            $OldDate = new \DateTime();
+            $OldDate->sub(new \DateInterval('P' . $days . 'D'));
+
+            $where['useDate'] = array(
+                'type'  => '<=',
+                'value' => $OldDate->format('Y-m-d H:i:s')
+            );
+        }
+
+        QUI::getDataBase()->delete(
+            self::getTable(),
+            $where
+        );
+    }
+
+    /**
      * Get InviteCode table
      *
      * @return string

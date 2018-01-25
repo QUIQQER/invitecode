@@ -3,7 +3,10 @@
   "type": "quiqqer-module",
   "description": "Generate and manage Invite Codes to register and identify users in your system",
   "version": "dev-master",
-  "license": "GPL-3.0+",
+  "license": [
+    "PCSG QL-1.0",
+    "CC BY-NC-SA 4.0"
+  ],
   "authors": [
     {
       "name": "Patrick M\u00fcller",
@@ -17,7 +20,7 @@
     "url": "http:\/\/www.pcsg.de"
   },
   "require": {
-    "quiqqer\/frontend-users": ">=1.0|dev-master",
+    "quiqqer\/frontend-users": ">=1.0|dev-master|dev-dev",
     "quiqqer\/quiqqer": ">=1.1|dev-master|dev-dev"
   },
   "autoload": {

@@ -38,7 +38,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
 
         // use Invite Code
         $InviteCode = InviteCodeHandler::getInviteCodeByCode($this->getAttribute('invitecode'));
-        $InviteCode->use($User);
+        $InviteCode->redeem($User);
     }
 
     /**
@@ -66,7 +66,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
             ));
         }
 
-        if ($InviteCode->isUsed()) {
+        if ($InviteCode->isRedeemed()) {
             throw new InviteCodeRegistrarException(array(
                 $lg,
                 $lgPrefix . 'invalid_code'
@@ -143,7 +143,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
             return $invalidFields;
         }
 
-        if ($InviteCode->isUsed()) {
+        if ($InviteCode->isRedeemed()) {
             $invalidFields['invitecode'] = new InvalidFormField(
                 'invitecode',
                 $L->get($lg, $lgPrefix . 'invalid_code')
