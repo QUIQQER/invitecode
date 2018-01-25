@@ -139,7 +139,7 @@ class InviteCode
 
             $Now = new \DateTime();
 
-            if (!$this->isUsed() && $Now > $this->ValidUntilDate) {
+            if (!$this->isRedeemed() && $Now > $this->ValidUntilDate) {
                 $this->valid = false;
             }
         }
@@ -244,7 +244,7 @@ class InviteCode
      */
     public function redeem($User)
     {
-        if ($this->isUsed()) {
+        if ($this->isRedeemed()) {
             throw new InviteCodeException(array(
                 'quiqqer/invitecode',
                 'exception.invitecode.already_used'
@@ -285,9 +285,11 @@ class InviteCode
     }
 
     /**
+     * Checks if an InviteCode is redeemed
+     *
      * @return bool
      */
-    public function isUsed()
+    public function isRedeemed()
     {
         return !is_null($this->getUseDate());
     }
