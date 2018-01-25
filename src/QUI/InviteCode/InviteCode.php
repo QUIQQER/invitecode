@@ -234,7 +234,7 @@ class InviteCode
     }
 
     /**
-     * Use this InviteCode
+     * Redeems this InviteCode
      *
      * Hint: This invalidates the code for future use
      *
@@ -242,7 +242,7 @@ class InviteCode
      * @return void
      * @throws InviteCodeException
      */
-    public function use($User)
+    public function redeem($User)
     {
         if ($this->isUsed()) {
             throw new InviteCodeException(array(

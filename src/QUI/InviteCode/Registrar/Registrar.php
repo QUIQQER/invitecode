@@ -38,7 +38,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
 
         // use Invite Code
         $InviteCode = InviteCodeHandler::getInviteCodeByCode($this->getAttribute('invitecode'));
-        $InviteCode->use($User);
+        $InviteCode->redeem($User);
     }
 
     /**
