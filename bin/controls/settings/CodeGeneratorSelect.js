@@ -73,7 +73,6 @@ define('package/quiqqer/invitecode/bin/controls/settings/CodeGeneratorSelect', [
                 }
 
                 self.addEvent('onChange', function(value) {
-                    console.log(value);
                     self.$Input.value = value;
                 });
             });

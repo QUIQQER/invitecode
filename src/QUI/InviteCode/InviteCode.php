@@ -188,7 +188,7 @@ class InviteCode
     /**
      * @param string $email
      */
-    public function setEmail(string $email)
+    public function setEmail($email)
     {
         $this->email = $email;
     }
