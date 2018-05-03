@@ -161,13 +161,15 @@ class Registrar extends FrontendUsers\AbstractRegistrar
 
         try {
             QUI::getUsers()->getUserByMail($email);
-        } catch (\Exception $Exception) {
+
             $invalidFields['email'] = new InvalidFormField(
                 'email',
                 $L->get($lg, $lgPrefix . 'email_invalid')
             );
 
             return $invalidFields;
+        } catch (\Exception $Exception) {
+            // OK - user not found
         }
 
         $inviteCodeEmail = $InviteCode->getEmail();
