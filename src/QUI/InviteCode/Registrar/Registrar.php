@@ -262,4 +262,14 @@ class Registrar extends FrontendUsers\AbstractRegistrar
     {
         return true;
     }
+
+    /**
+     * Return an icon for the registrar
+     *
+     * @return string
+     */
+    public function getIcon()
+    {
+        return 'fa fa-code';
+    }
 }
