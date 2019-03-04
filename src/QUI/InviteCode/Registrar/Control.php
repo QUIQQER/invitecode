@@ -30,6 +30,7 @@ class Control extends QUI\Control
 
         $this->addCSSFile(dirname(__FILE__).'/Control.css');
         $this->addCSSClass('quiqqer-registration');
+        $this->addCSSClass('quiqqer-registration-invite-code');
     }
 
     /**

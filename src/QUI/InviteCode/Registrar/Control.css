@@ -4,6 +4,12 @@
     width: 100%;
 }
 
+.quiqqer-registration-invite-code {
+    min-width: 400px;
+}
+
+.quiqqer-invitecode-registrar-invitecode,
+.quiqqer-invitecode-registrar-email,
 .quiqqer-invitecode-registrar fieldset {
     border: none;
     margin-bottom: 10px;
@@ -17,6 +23,9 @@
 
 .quiqqer-invitecode-registrar-field-title {
     float: left;
+    font-size: 1.2rem;
+    line-height: 2.8rem;
+    text-align: left;
     width: 40%;
 }
 
@@ -27,7 +36,7 @@
 
 .quiqqer-invitecode-registrar-field-error-msg {
     color: #ff0000;
-    padding-left:40%;
+    padding-left: 40%;
     width: 100%;
 }
 
