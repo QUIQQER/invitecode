@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+    <types>
+        <type type="types/invite" icon="fa fa-file-code-o">
+            <locale group="quiqqer/invitecode" var="admin.types.invite"/>
+        </type>
+    </types>
+</site>
