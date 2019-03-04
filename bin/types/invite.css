@@ -1,0 +1,14 @@
+.quiqqer-invite-code-type {
+    margin: 0 auto;
+    max-width: 500px;
+    padding: 1rem;
+}
+
+.quiqqer-invite-code-type fieldset {
+    border: none;
+    margin: 0.5rem 0;
+}
+
+.quiqqer-registration button {
+    float: none;
+}

@@ -26,6 +26,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      * @param QUI\Interfaces\Users\User $User
      * @return void
      * @throws QUI\InviteCode\Exception\InviteCodeException
+     * @throws QUI\Exception
      */
     public function onRegistered(QUI\Interfaces\Users\User $User)
     {
@@ -51,44 +52,44 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         $code     = $this->getAttribute('invitecode');
 
         if (empty($code)) {
-            throw new InviteCodeRegistrarException(array(
+            throw new InviteCodeRegistrarException([
                 $lg,
-                $lgPrefix . 'invalid_code'
-            ));
+                $lgPrefix.'invalid_code'
+            ]);
         }
 
         try {
             $InviteCode = InviteCodeHandler::getInviteCodeByCode($code);
         } catch (\Exception $Exception) {
-            throw new InviteCodeRegistrarException(array(
+            throw new InviteCodeRegistrarException([
                 $lg,
-                $lgPrefix . 'invalid_code'
-            ));
+                $lgPrefix.'invalid_code'
+            ]);
         }
 
         if ($InviteCode->isRedeemed()) {
-            throw new InviteCodeRegistrarException(array(
+            throw new InviteCodeRegistrarException([
                 $lg,
-                $lgPrefix . 'invalid_code'
-            ));
+                $lgPrefix.'invalid_code'
+            ]);
         }
 
         $email = $this->getAttribute('email');
 
         if (empty($email)) {
-            throw new InviteCodeRegistrarException(array(
+            throw new InviteCodeRegistrarException([
                 $lg,
-                $lgPrefix . 'empty_email'
-            ));
+                $lgPrefix.'empty_email'
+            ]);
         }
 
         try {
             QUI::getUsers()->getUserByMail($email);
 
-            throw new InviteCodeRegistrarException(array(
+            throw new InviteCodeRegistrarException([
                 $lg,
-                $lgPrefix . 'email_invalid'
-            ));
+                $lgPrefix.'email_invalid'
+            ]);
         } catch (\Exception $Exception) {
             // if user not found -> OK
         }
@@ -97,17 +98,17 @@ class Registrar extends FrontendUsers\AbstractRegistrar
 
         if (!empty($inviteCodeEmail)) {
             if (mb_strtolower($inviteCodeEmail) !== mb_strtolower($email)) {
-                throw new InviteCodeRegistrarException(array(
+                throw new InviteCodeRegistrarException([
                     $lg,
-                    $lgPrefix . 'email_invalid'
-                ));
+                    $lgPrefix.'email_invalid'
+                ]);
             }
         } else {
             if (!Orthos::checkMailSyntax($email)) {
-                throw new InviteCodeRegistrarException(array(
+                throw new InviteCodeRegistrarException([
                     $lg,
-                    $lgPrefix . 'email_invalid'
-                ));
+                    $lgPrefix.'email_invalid'
+                ]);
             }
         }
     }
@@ -123,12 +124,12 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         $lg            = 'quiqqer/invitecode';
         $lgPrefix      = 'exception.registrar.';
         $code          = $this->getAttribute('invitecode');
-        $invalidFields = array();
+        $invalidFields = [];
 
         if (empty($code)) {
             $invalidFields['invitecode'] = new InvalidFormField(
                 'invitecode',
-                $L->get($lg, $lgPrefix . 'invalid_code')
+                $L->get($lg, $lgPrefix.'invalid_code')
             );
         }
 
@@ -137,7 +138,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         } catch (\Exception $Exception) {
             $invalidFields['invitecode'] = new InvalidFormField(
                 'invitecode',
-                $L->get($lg, $lgPrefix . 'invalid_code')
+                $L->get($lg, $lgPrefix.'invalid_code')
             );
 
             return $invalidFields;
@@ -146,7 +147,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         if ($InviteCode->isRedeemed()) {
             $invalidFields['invitecode'] = new InvalidFormField(
                 'invitecode',
-                $L->get($lg, $lgPrefix . 'invalid_code')
+                $L->get($lg, $lgPrefix.'invalid_code')
             );
         }
 
@@ -155,7 +156,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
         if (empty($email)) {
             $invalidFields['email'] = new InvalidFormField(
                 'email',
-                $L->get($lg, $lgPrefix . 'empty_email')
+                $L->get($lg, $lgPrefix.'empty_email')
             );
         }
 
@@ -164,7 +165,7 @@ class Registrar extends FrontendUsers\AbstractRegistrar
 
             $invalidFields['email'] = new InvalidFormField(
                 'email',
-                $L->get($lg, $lgPrefix . 'email_invalid')
+                $L->get($lg, $lgPrefix.'email_invalid')
             );
 
             return $invalidFields;
@@ -178,14 +179,14 @@ class Registrar extends FrontendUsers\AbstractRegistrar
             if (mb_strtolower($inviteCodeEmail) !== mb_strtolower($email)) {
                 $invalidFields['email'] = new InvalidFormField(
                     'email',
-                    $L->get($lg, $lgPrefix . 'email_invalid')
+                    $L->get($lg, $lgPrefix.'email_invalid')
                 );
             }
         } else {
             if (!Orthos::checkMailSyntax($email)) {
                 $invalidFields['email'] = new InvalidFormField(
                     'email',
-                    $L->get($lg, $lgPrefix . 'email_invalid')
+                    $L->get($lg, $lgPrefix.'email_invalid')
                 );
             }
         }
@@ -212,15 +213,15 @@ class Registrar extends FrontendUsers\AbstractRegistrar
      */
     public function getControl()
     {
-        $invalidFields = array();
+        $invalidFields = [];
 
         if (!empty($_POST['registration'])) {
             $invalidFields = $this->getInvalidFields();
         }
 
-        return new Control(array(
+        return new Control([
             'invalidFields' => $invalidFields
-        ));
+        ]);
     }
 
     /**

@@ -19,17 +19,18 @@ class Control extends QUI\Control
      *
      * @param array $attributes
      */
-    public function __construct(array $attributes = array())
+    public function __construct(array $attributes = [])
     {
-        $this->setAttributes(array(
-            'invalidFields' => array(),
+        $this->setAttributes([
+            'invalidFields' => [],
             'fields'        => $_POST
-        ));
+        ]);
 
         parent::__construct($attributes);
 
-        $this->addCSSFile(dirname(__FILE__) . '/Control.css');
+        $this->addCSSFile(dirname(__FILE__).'/Control.css');
         $this->addCSSClass('quiqqer-registration');
+        $this->addCSSClass('quiqqer-registration-invite-code');
     }
 
     /**
@@ -37,13 +38,17 @@ class Control extends QUI\Control
      */
     public function getBody()
     {
-        $Engine = QUI::getTemplateManager()->getEngine();
+        try {
+            $Engine = QUI::getTemplateManager()->getEngine();
+        } catch (QUI\Exception $Exception) {
+            return '';
+        }
 
-        $Engine->assign(array(
+        $Engine->assign([
             'invalidFields' => $this->getAttribute('invalidFields'),
             'fields'        => $this->getAttribute('fields')
-        ));
+        ]);
 
-        return $Engine->fetch(dirname(__FILE__) . '/Control.html');
+        return $Engine->fetch(dirname(__FILE__).'/Control.html');
     }
 }
