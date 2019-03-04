@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
     <types>
-        <type type="types/invite" icon="fa fa-file-code-o">
+        <type type="types/invite" icon="fa fa-code">
             <locale group="quiqqer/invitecode" var="admin.types.invite"/>
         </type>
     </types>
