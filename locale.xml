@@ -16,6 +16,10 @@
             <de><![CDATA[Invite-Codes]]></de>
             <en><![CDATA[Invite Codes]]></en>
         </locale>
+        <locale name="admin.types.invite">
+            <de><![CDATA[Invite-Code]]></de>
+            <en><![CDATA[Invite Code]]></en>
+        </locale>
 
         <!-- Settings -->
         <locale name="settings.title">
@@ -112,7 +116,6 @@
             <de><![CDATA[Anzahl der Tage, die ein Invite-Code eingelöst sein muss, bevor er durch diesen Cron gelöscht wird.]]></de>
             <en><![CDATA[Number of days an Invite Code has to be redeemed before it is deleted by this cronjob.]]></en>
         </locale>
-
     </groups>
 
     <groups name="quiqqer/invitecode" datatype="php">
