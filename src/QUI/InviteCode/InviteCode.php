@@ -241,6 +241,7 @@ class InviteCode
      * @param QUI\Users\User $User
      * @return void
      * @throws InviteCodeException
+     * @throws QUI\Exception
      */
     public function redeem($User)
     {
@@ -272,6 +273,8 @@ class InviteCode
         );
 
         $this->UseDate = $Now;
+
+        QUI::getEvents()->fireEvent('quiqqerInviteCodeRedeem', [$this, $User]);
     }
 
     /**
