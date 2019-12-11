@@ -2,7 +2,6 @@
     "name": "quiqqer\/invitecode",
     "type": "quiqqer-module",
     "description": "Generate and manage Invite Codes to register and identify users in your system",
-    "version": "dev-dev",
     "license": [
         "PCSG QL-1.0",
         "CC BY-NC-SA 4.0"
