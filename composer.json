@@ -1,31 +1,30 @@
 {
-  "name": "quiqqer\/invitecode",
-  "type": "quiqqer-module",
-  "description": "Generate and manage Invite Codes to register and identify users in your system",
-  "version": "dev-master",
-  "license": [
-    "PCSG QL-1.0",
-    "CC BY-NC-SA 4.0"
-  ],
-  "authors": [
-    {
-      "name": "Patrick M\u00fcller",
-      "email": "p.mueller@pcsg.de",
-      "homepage": "http:\/\/www.pcsg.de",
-      "role": "Developer"
+    "name": "quiqqer\/invitecode",
+    "type": "quiqqer-module",
+    "description": "Generate and manage Invite Codes to register and identify users in your system",
+    "license": [
+        "PCSG QL-1.0",
+        "CC BY-NC-SA 4.0"
+    ],
+    "authors": [
+        {
+            "name": "Patrick M\u00fcller",
+            "email": "p.mueller@pcsg.de",
+            "homepage": "http:\/\/www.pcsg.de",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "support@pcsg.de",
+        "url": "http:\/\/www.pcsg.de"
+    },
+    "require": {
+        "quiqqer\/frontend-users": "^1.1|*@dev",
+        "quiqqer\/quiqqer": "^1.1|*@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "QUI\\InviteCode\\": "src\/QUI\/InviteCode"
+        }
     }
-  ],
-  "support": {
-    "email": "support@pcsg.de",
-    "url": "http:\/\/www.pcsg.de"
-  },
-  "require": {
-    "quiqqer\/frontend-users": "^1.1|*@dev",
-    "quiqqer\/quiqqer": "^1.1|*@dev"
-  },
-  "autoload": {
-    "psr-4": {
-      "QUI\\InviteCode\\": "src\/QUI\/InviteCode"
-    }
-  }
 }
